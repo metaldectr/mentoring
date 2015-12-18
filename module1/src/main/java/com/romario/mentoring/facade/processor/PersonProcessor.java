@@ -16,23 +16,43 @@ import java.util.logging.Logger;
  * <p/>
  * Facade
  */
-public class PersonProcessor
+public class PersonProcessor implements PersonProcessorInterface
 {
   final Logger logger = Logger.getLogger( PersonProcessor.class.getName() );
   private final static String URL = "/persons";
 
-  public Person smarterPerson( final Person p1, final Person p2 )
+  private Person person;
+
+  public PersonProcessor( String name, int age, int iq )
+  {
+    this.person = new Person( name, age, iq );
+  }
+
+  /**
+   * @param p1
+   * @param p2
+   * @return
+   */
+  public String smarterPerson( final Person p1, final Person p2 )
   {
     if ( p1 != null && p2 != null ) {
       if ( p1.getIq() > p2.getIq() ) {
-        return p1;
+        return p1.getName();
+      } else if ( p2.getIq() > p1.getIq() ) {
+        return p2.getName();
       } else {
-        return p2;
+        return "Similar person by IQ";
       }
     }
     return null;
   }
 
+  /**
+   *
+   * @param personFrom
+   * @param personTo
+   * @param val
+   */
   public void moveIQForPerson( Person personFrom, Person personTo, int val )
   {
     personFrom.setIq( personFrom.getIq() - val );
@@ -44,6 +64,9 @@ public class PersonProcessor
     person.setIq( person.getIq() + val );
   }
 
+  /**
+   * @param persons
+   */
   public void savePersonsInFile( List<Person> persons )
   {
     try (ObjectOutputStream out = new ObjectOutputStream(
@@ -54,6 +77,9 @@ public class PersonProcessor
     }
   }
 
+  /**
+   * @return
+   */
   public List<Person> readPersonsFromFile()
   {
     try (ObjectInputStream in = new ObjectInputStream(
@@ -68,4 +94,13 @@ public class PersonProcessor
     return null;
   }
 
+  public Person getPerson()
+  {
+    return person;
+  }
+
+  public void setPerson( Person person )
+  {
+    this.person = person;
+  }
 }
