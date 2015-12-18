@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * MyFileReader
@@ -14,6 +16,8 @@ import java.util.Scanner;
 public class MyFileReader
   extends Observable
 {
+  private final static Logger LOGGER = Logger.getLogger( MyFileReader.class.getName() );
+
   final List<Observer> observers = new ArrayList<>();
 
   public void readFile( String path )
@@ -22,14 +26,13 @@ public class MyFileReader
       Scanner scanner = new Scanner( new File( path ) );
       while ( scanner.hasNextLine() ) {
         Scanner scanner2 = new Scanner( scanner.nextLine() );
-        notifyObservers( 1 );
         while ( scanner2.hasNext() ) {
           String s = scanner2.next();
-          notifyObservers( 2 );
+          notifyObservers( s );
         }
       }
     } catch( IOException ex ) {
-      ex.printStackTrace();
+      LOGGER.log( Level.SEVERE, "Couldn't open file", ex );
     }
   }
 

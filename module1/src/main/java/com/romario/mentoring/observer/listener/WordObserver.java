@@ -4,24 +4,17 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * File Observer
+ * WordObserver
  */
-public class FileObserver
-  implements Observer
+public class WordObserver implements Observer
 {
-
   private int countWords;
-  private int countNumbers;
-
 
   @Override
   public void update( Observable o, Object arg )
   {
-    if ( ((int)arg) == 1 ) {
-      countNumbers++;
-    } else {
-      countWords++;
-    }
+    String str = (String) arg;
+    setCountWords( getCountWords()+1 );
   }
 
   public int getCountWords()
@@ -32,15 +25,5 @@ public class FileObserver
   public void setCountWords( int countWords )
   {
     this.countWords = countWords;
-  }
-
-  public int getCountNumbers()
-  {
-    return countNumbers;
-  }
-
-  public void setCountNumbers( int countNumbers )
-  {
-    this.countNumbers = countNumbers;
   }
 }

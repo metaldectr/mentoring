@@ -1,6 +1,7 @@
 package com.romario.mentoring.observer.main;
 
-import com.romario.mentoring.observer.listener.FileObserver;
+import com.romario.mentoring.observer.listener.NumberObserver;
+import com.romario.mentoring.observer.listener.WordObserver;
 import com.romario.mentoring.observer.reader.MyFileReader;
 
 /**
@@ -12,13 +13,15 @@ public class Main
   public static void main( String[] args )
   {
     MyFileReader myFileReader = new MyFileReader();
-    final FileObserver fo = new FileObserver();
+    final NumberObserver no = new NumberObserver();
+    final WordObserver wo = new WordObserver();
     String path = "test.txt";
-    myFileReader.addObserver( fo );
+    myFileReader.addObserver( no );
+    myFileReader.addObserver( wo );
     myFileReader.readFile( path );
 
-    System.out.println( fo.getCountNumbers() );
-    System.out.println( fo.getCountWords() );
+    System.out.println( no.getCountNumbers() );
+    System.out.println( wo.getCountWords() );
   }
 
 }
