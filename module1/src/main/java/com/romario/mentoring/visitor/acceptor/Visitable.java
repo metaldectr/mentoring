@@ -1,6 +1,7 @@
 package com.romario.mentoring.visitor.acceptor;
 
-import com.romario.mentoring.visitor.entity.FileSystemElement;
+import com.romario.mentoring.visitor.entity.Directory;
+import com.romario.mentoring.visitor.entity.File;
 
 /**
  *
@@ -8,6 +9,8 @@ import com.romario.mentoring.visitor.entity.FileSystemElement;
 public interface Visitable
 {
 
-  Visitable assept( FileSystemElement visitor );
+  void visit( Directory visitor );
+
+  void visit( File file );
 
 }

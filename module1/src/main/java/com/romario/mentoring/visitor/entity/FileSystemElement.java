@@ -1,26 +1,12 @@
 package com.romario.mentoring.visitor.entity;
 
+import com.romario.mentoring.visitor.acceptor.Visitable;
+
 /**
  *
  */
-public class FileSystemElement
+public interface FileSystemElement
 {
 
-  private java.io.File file;
-
-  public FileSystemElement( java.io.File file )
-  {
-    this.file = file;
-  }
-
-  public java.io.File getFile()
-  {
-    return file;
-  }
-
-  public void setFile( java.io.File file )
-  {
-    this.file = file;
-  }
-
+  void accept(Visitable visitor);
 }

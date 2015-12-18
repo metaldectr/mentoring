@@ -6,7 +6,7 @@ import com.romario.mentoring.visitor.entity.File;
 /**
  *
  */
-public class DirectoryVisitable
+public class FileVisitable
   implements Visitable
 {
 
