@@ -5,29 +5,18 @@ import com.romario.mentoring.bridge.manager.GUIManager;
 import com.romario.mentoring.bridge.manager.XGUIManager;
 
 /**
- *
+ * Main class
  */
 public class Main
 {
   private GUIManager guiManager = new XGUIManager();
 
-  public static void main(String[] args) {
-
-    Main main = new Main();
-    main.getGuiManager().setDrawAPI( new WindowsDrawApiImpl() );
-    main.getGuiManager().createWindow();
-    main.getGuiManager().createPanel();
-    main.getGuiManager().createButton();
-  }
-
-  public GUIManager getGuiManager()
+  public static void main( String[] args )
   {
-    return guiManager;
-  }
-
-  public void setGuiManager(
-    GUIManager guiManager )
-  {
-    this.guiManager = guiManager;
+    GUIManager guiManager = new XGUIManager();
+    guiManager.setDrawAPI( new WindowsDrawApiImpl() );
+    guiManager.createWindow();
+    guiManager.createPanel();
+    guiManager.createButton();
   }
 }

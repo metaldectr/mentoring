@@ -13,19 +13,23 @@ public class GUIManager
 
   protected DrawAPI drawAPI;
 
-  public Window createWindow() {
-    return new JWindow(  );
+  public Window createWindow()
+  {
+    return new JWindow();
   }
 
-  public Button createButton() {
+  public Button createButton()
+  {
     drawAPI.drawLine();
     drawAPI.drawLine();
     drawAPI.drawLine();
     drawAPI.drawLine();
-    return new Button(  );
+    drawAPI.drawPoint();
+    return new Button();
   }
 
-  public Panel createPanel() {
+  public Panel createPanel()
+  {
     drawAPI.drawLine();
     drawAPI.drawLine();
     drawAPI.drawLine();

@@ -11,12 +11,12 @@ public class LinuxDrawApiImpl
   @Override
   public void drawPoint()
   {
-
+    /*Draw point in Linux OS*/
   }
 
   @Override
   public void drawLine()
   {
-
+    /*Draw line in Linux OS*/
   }
 }
