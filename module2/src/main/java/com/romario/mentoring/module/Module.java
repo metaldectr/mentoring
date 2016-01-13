@@ -1,43 +1,13 @@
 package com.romario.mentoring.module;
 
-/**
- * Module class
- */
-public class Module {
+public interface Module {
 
-  private int id;
-  private String name;
+  int getId();
 
-  public Module() {
-  }
+  void setId(int id);
 
-  public Module(int id, String name) {
-    this.id = id;
-    this.name = name;
-  }
+  String getName();
 
-  public int getId() {
-    return id;
-  }
+  void setName(String name);
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(this.getId());
-    sb.append(" : ");
-    sb.append(this.getName());
-    return sb.toString();
-  }
 }
