@@ -24,7 +24,7 @@ public class MyClassLoader extends ClassLoader {
 
   private Map<String, Class<?>> cache = new HashMap<String, Class<?>>();
   private final static Logger sLogger = Logger.getLogger(MyClassLoader.class);
-  private static final String PATH = "d:\\projects\\mentoring\\module2\\out\\";
+  private static final String PATH = "d:\\projects\\mentoring\\module2\\out\\Module.jar";
   /*com.romario.mentoring.module.Module*/
 
   public MyClassLoader() {
@@ -45,7 +45,7 @@ public class MyClassLoader extends ClassLoader {
     try {
       jarFile = new JarFile( PATH );
 
-      final JarEntry jarEntry = jarFile.getJarEntry( name + ".java" );
+      final JarEntry jarEntry = jarFile.getJarEntry( name.substring( name.lastIndexOf( "." ) + 1, name.length() ) + ".class" );
       InputStream stream = jarFile.getInputStream( jarEntry );
       ByteArrayOutputStream out = new ByteArrayOutputStream(  );
       int value = stream.read();
