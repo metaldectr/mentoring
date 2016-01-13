@@ -5,10 +5,11 @@ package com.romario.mentoring.module;
  */
 public class MyModule implements Module {
 
-  private int id;
+  private int id = 0;
   private String name;
 
   public MyModule() {
+    id++;
   }
 
   /* (non-Javadoc)
@@ -16,13 +17,6 @@ public class MyModule implements Module {
    */
   public int getId() {
     return id;
-  }
-
-  /* (non-Javadoc)
-   * @see com.romario.mentoring.module.Module#setId(int)
-   */
-  public void setId(int id) {
-    this.id = id;
   }
 
   /* (non-Javadoc)

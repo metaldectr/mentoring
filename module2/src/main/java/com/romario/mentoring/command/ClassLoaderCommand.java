@@ -1,6 +1,8 @@
 package com.romario.mentoring.command;
 
 import com.romario.mentoring.classloader.MyClassLoader;
+import com.romario.mentoring.container.Container;
+import com.romario.mentoring.module.Module;
 
 import java.util.Scanner;
 
@@ -20,14 +22,24 @@ public class ClassLoaderCommand implements Command {
   }
 
   public void perform() {
-    final String path = answer("Enter the path to class in module:");
+    final String className = answer("Enter class name:");
     final String moduleName = answer("Enter the module name:");
-    final MyClassLoader myClassLoader = new MyClassLoader();
+    final MyClassLoader classLoader = new MyClassLoader();
     try {
-      myClassLoader.loadClass(path, moduleName);
-    } catch (ClassNotFoundException e) {
-      sLogger.error("Couldn't find class by path : " + path, e);
+      Module module = loadModule(className, moduleName, classLoader);
+      Container.getInstance().getClassesMap().put(module.getId(), module);
+    } catch (Exception e) {
+      sLogger.error("Couldn't load class by path : " + className, e);
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private Module loadModule(final String className, final String moduleName, final MyClassLoader myClassLoader)
+      throws Exception {
+    Class<Module> clazz = (Class<Module>) myClassLoader.loadClass(className);
+    Module module = clazz.newInstance();
+    module.setName(moduleName);
+    return module;
   }
 
   private String answer(String message) {
