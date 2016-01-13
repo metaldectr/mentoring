@@ -9,11 +9,16 @@ import java.util.Scanner;
 /**
  * LoadedClassViewerCommand class
  */
-public class LoadedClassViewerCommand extends AbstractCommand {
+public class LoadedClassViewerCommand implements Command {
 
   private static final Logger sLogger = Logger.getLogger(LoadedClassViewerCommand.class.getName());
+  
+  private Scanner scanner;
 
-  @Override
+  public LoadedClassViewerCommand(Scanner scanner) {
+    this.scanner = scanner;
+  }
+
   public void perform() {
     listModules();
   }
@@ -29,7 +34,6 @@ public class LoadedClassViewerCommand extends AbstractCommand {
   }
 
   private int getIdModule() {
-    Scanner scanner = new Scanner(System.in);
     System.out.println("Enter the id module");
     return scanner.nextInt();
   }
