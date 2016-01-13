@@ -8,3 +8,5 @@ log
 *.iml
 *.class
 .idea
+.log
+logs
