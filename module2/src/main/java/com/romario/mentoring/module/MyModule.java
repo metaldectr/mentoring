@@ -8,27 +8,18 @@ public class MyModule implements Module {
   private int id = 0;
   private String name;
 
-  public MyModule() {
-    id++;
-  }
-
-  /* (non-Javadoc)
-   * @see com.romario.mentoring.module.Module#getId()
-   */
   public int getId() {
     return id;
   }
+  
+  public void setId(int id) {
+    this.id = id;
+  }
 
-  /* (non-Javadoc)
-   * @see com.romario.mentoring.module.Module#getName()
-   */
   public String getName() {
     return name;
   }
 
-  /* (non-Javadoc)
-   * @see com.romario.mentoring.module.Module#setName(java.lang.String)
-   */
   public void setName(String name) {
     this.name = name;
   }
@@ -41,4 +32,6 @@ public class MyModule implements Module {
     sb.append(this.getName());
     return sb.toString();
   }
+
+  
 }

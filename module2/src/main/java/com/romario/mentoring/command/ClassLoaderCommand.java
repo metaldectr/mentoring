@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
  * MyClassloader command class
  */
 public class ClassLoaderCommand implements Command {
+
+  private static int moduleIdCounter = 0;
 	
   private final Logger sLogger = Logger.getLogger(ClassLoaderCommand.class);
 
@@ -24,21 +26,21 @@ public class ClassLoaderCommand implements Command {
   public void perform() {
     final String className = answer("Enter class name:");
     final String moduleName = answer("Enter the module name:");
-    final MyClassLoader classLoader = new MyClassLoader();
     try {
-      Module module = loadModule(className, moduleName, classLoader);
-      Container.getInstance().getClassesMap().put(module.getId(), module);
+      Module module = loadModule(className, moduleName);
+      Container.getInstance().put(module.getId(), module);
     } catch (Exception e) {
       sLogger.error("Couldn't load class by path : " + className, e);
     }
   }
 
   @SuppressWarnings("unchecked")
-  private Module loadModule(final String className, final String moduleName, final MyClassLoader myClassLoader)
+  private static Module loadModule(final String className, final String moduleName)
       throws Exception {
-    Class<Module> clazz = (Class<Module>) myClassLoader.loadClass(className);
+    Class<Module> clazz = (Class<Module>) new MyClassLoader().loadClass(className);
     Module module = clazz.newInstance();
     module.setName(moduleName);
+    module.setId(moduleIdCounter++);
     return module;
   }
 
@@ -46,5 +48,4 @@ public class ClassLoaderCommand implements Command {
     System.out.println(message);
     return scanner.next();
   }
-
 }

@@ -1,19 +1,15 @@
 package com.romario.mentoring.command;
 
-import java.util.Map;
 import java.util.Scanner;
 
-import org.apache.log4j.Logger;
-
 import com.romario.mentoring.container.Container;
+import com.romario.mentoring.module.Module;
 
 /**
  * LoadedClassViewerCommand class
  */
 public class LoadedClassViewerCommand implements Command {
 
-  private static final Logger sLogger = Logger.getLogger(LoadedClassViewerCommand.class.getName());
-  
   private Scanner scanner;
 
   public LoadedClassViewerCommand(Scanner scanner) {
@@ -25,10 +21,12 @@ public class LoadedClassViewerCommand implements Command {
   }
 
   private void listModules() {
-    final Map<Integer, Object> classes = Container.getInstance().getClassesMap();
+    final Container container = Container.getInstance();
     System.out.println("List modules : ");
-    for (Integer s : classes.keySet()) {
-      System.out.println(s + " - " + classes.get(s).getClass().getName() + " (" + classes.get( s ).toString() + " )");
+    for (Module module : container.getAll()) {
+      int moduleID = module.getId();
+      String moduleClassName = module.getClass().getName();
+      System.out.printf("%s - %s = (%s) %n", moduleID, moduleClassName, module);
     }
     int choice = getIdModule();
     outputInformationAboutModule(choice);
@@ -41,7 +39,7 @@ public class LoadedClassViewerCommand implements Command {
 
   private void outputInformationAboutModule( final int id )
   {
-    final Object object = Container.getInstance().getClassesMap().get( id );
+    final Object object = Container.getInstance().get( id );
     System.out.println("===============================");
     System.out.println( "Module id = " + id );
     System.out.println( object );

@@ -1,14 +1,17 @@
 package com.romario.mentoring.container;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.romario.mentoring.module.Module;
 
 /**
  * Container
  */
 public class Container {
 
-  private Map<Integer, Object> classesMap = new HashMap<Integer, Object>();
+  private Map<Integer, Module> modules = new HashMap<Integer, Module>();
   private static final Container INSTANCE = new Container();
 
   private Container() {}
@@ -17,11 +20,15 @@ public class Container {
     return INSTANCE;
   }
 
-  public Map<Integer, Object> getClassesMap() {
-    return classesMap;
+  public Module get(Integer key) {
+    return modules.get(key);
   }
 
-  public void setClassesMap(Map<Integer, Object> classesMap) {
-    this.classesMap = classesMap;
+  public Module put(Integer key, Module module) {
+    return modules.put(key, module);
+  }
+  
+  public Collection<Module> getAll(){
+    return modules.values();
   }
 }
