@@ -8,24 +8,13 @@ import java.util.Map;
  */
 public class Container {
 
-  private Map<Integer, Object> classesMap;
-  private static volatile Container container;
+  private Map<Integer, Object> classesMap = new HashMap<Integer, Object>();
+  private static final Container INSTANCE = new Container();
 
-  private Container() {
-    classesMap = new HashMap<Integer, Object>();
-  }
+  private Container() {}
 
   public static Container getInstance() {
-    Container tmpContainer = container;
-    if (tmpContainer == null) {
-      synchronized (Container.class) {
-        tmpContainer = container;
-        if (container == null) {
-          tmpContainer = container = new Container();
-        }
-      }
-    }
-    return tmpContainer;
+    return INSTANCE;
   }
 
   public Map<Integer, Object> getClassesMap() {
