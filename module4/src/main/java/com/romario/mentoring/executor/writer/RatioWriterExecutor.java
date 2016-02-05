@@ -27,22 +27,22 @@ public class RatioWriterExecutor
     do {
       sLogger.info(
         Thread.currentThread().getId() + " run" );
-        List<Channel> channels = cache.getChannelList();
-        List<Ratio> tmpRatioList = new ArrayList<Ratio>();
-        for( Channel channel : channels ) {
-          List<Listing> listings = channel.getListing();
-          if ( listings != null && !listings.isEmpty() ) {
-            for( Listing listing : listings ) {
-              if ( listing.getRatio() != null ) {
-                Ratio ratio = listing.getRatio();
-                ratio.setRatio( ratio.getRatio() );
-              } else {
-                listing.setRatio(
-                  new Ratio( RandomUtil.nextLong(), RandomUtil.nextLong() ) );
-              }
+      List<Channel> channels = cache.getChannelList();
+      List<Ratio> tmpRatioList = new ArrayList<Ratio>();
+      for( Channel channel : channels ) {
+        List<Listing> listings = channel.getListing();
+        if ( listings != null && !listings.isEmpty() ) {
+          for( Listing listing : listings ) {
+            if ( listing.getRatio() != null ) {
+              Ratio ratio = listing.getRatio();
+              ratio.setRatio( ratio.getRatio() );
+            } else {
+              listing.setRatio(
+                new Ratio( RandomUtil.nextLong(), RandomUtil.nextLong() ) );
             }
           }
-          cache.setChannelList( channels );
+        }
+        cache.setChannelList( channels );
 
       }
       try {

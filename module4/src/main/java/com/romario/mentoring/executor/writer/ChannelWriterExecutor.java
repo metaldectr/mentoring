@@ -35,7 +35,7 @@ public class ChannelWriterExecutor
             "description:" + RandomUtil.nextInt() ) );
       }
 
-        cache.getChannelList().addAll( tmpChannels );
+      cache.getChannelList().addAll( tmpChannels );
 
       try {
         Thread.sleep( 20 * 1000 );

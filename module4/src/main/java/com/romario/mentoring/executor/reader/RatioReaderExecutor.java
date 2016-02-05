@@ -28,30 +28,30 @@ public class RatioReaderExecutor
 
     do {
       sLogger.info( "RationReaderExecutor run" );
-        List<Channel> channels = cache.getChannelList();
-        List<Ratio> ratioList = new ArrayList<Ratio>();
+      List<Channel> channels = cache.getChannelList();
+      List<Ratio> ratioList = new ArrayList<Ratio>();
 
-        for( Channel channel : channels ) {
-          if ( channel.getListing() != null ) {
-            for( Listing listing : channel.getListing() ) {
-              ratioList.add( listing.getRatio() );
-            }
+      for( Channel channel : channels ) {
+        if ( channel.getListing() != null ) {
+          for( Listing listing : channel.getListing() ) {
+            ratioList.add( listing.getRatio() );
           }
         }
-        for( int i = 0; i < 10; i++ ) {
-          List<Ratio> topRatioList = getTopRatioList( ratioList );
-          if ( topRatioList != null && !topRatioList.isEmpty() &&
-            topRatioList.size() > 10 && topRatioList.get( i ) != null ) {
-            long listingId = topRatioList.get( i ).getListingId();
-            Channel channel = findChannelById( channels, listingId );
-            Listing listing = findListingById( channels, listingId );
-            if ( channel != null && listing.getRatio() != null ) {
-              System.out.println(
-                "RThread3. Channel: " + channel.getTitle() + ". Listing: " +
-                  listing.getTitle() + ". Ratio: " + listing.getRatio().getRatio() );
-            }
+      }
+      for( int i = 0; i < 10; i++ ) {
+        List<Ratio> topRatioList = getTopRatioList( ratioList );
+        if ( topRatioList != null && !topRatioList.isEmpty() &&
+          topRatioList.size() > 10 && topRatioList.get( i ) != null ) {
+          long listingId = topRatioList.get( i ).getListingId();
+          Channel channel = findChannelById( channels, listingId );
+          Listing listing = findListingById( channels, listingId );
+          if ( channel != null && listing.getRatio() != null ) {
+            System.out.println(
+              "RThread3. Channel: " + channel.getTitle() + ". Listing: " +
+                listing.getTitle() + ". Ratio: " + listing.getRatio().getRatio() );
           }
         }
+      }
       try {
         Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
       } catch( InterruptedException e ) {
@@ -93,17 +93,19 @@ public class RatioReaderExecutor
   private List<Ratio> getTopRatioList( List<Ratio> ratioList )
   {
     Collections.sort( ratioList, new Comparator<Ratio>()
-    {
-      public int compare( Ratio o1, Ratio o2 )
       {
-        if ( o1 != null && o2 != null ) {
-          return ( o1.getRatio() < o2.getRatio() ) ? -1 :
-            ( o1.getRatio() > o2.getRatio() ) ? 1 : 0;
-        } else {
-          return -1;
+        public int compare( Ratio o1, Ratio o2 )
+        {
+          if ( o1.getRatio() < o2.getRatio() ) {
+            return -1;
+          } else if ( o1.getRatio() > o2.getRatio() ) {
+            return 1;
+          } else {
+            return 0;
+          }
         }
       }
-    } );
+    );
     return ratioList;
   }
 

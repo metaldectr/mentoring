@@ -26,22 +26,22 @@ public class ListingWriterExecutor
     do {
       sLogger.info( Thread.currentThread().getId() + "run" );
 
-        List<Channel> channels = cache.getChannelList();
+      List<Channel> channels = cache.getChannelList();
 
-        for( Channel channel : channels ) {
-          List<Listing> tmpListings = channel.getListing();
-          for( int j = 0; j < RandomUtil.randInt( 0, 5 ); j++ ) {
-            if ( tmpListings == null ) {
-              tmpListings = new ArrayList<Listing>();
-            }
-            tmpListings.add(
-              new Listing( RandomUtil.nextLong(), RandomUtil.nextLong(),
-                "listingTitle:" + RandomUtil.nextInt() ) );
-
+      for( Channel channel : channels ) {
+        List<Listing> tmpListings = channel.getListing();
+        for( int j = 0; j < RandomUtil.randInt( 0, 5 ); j++ ) {
+          if ( tmpListings == null ) {
+            tmpListings = new ArrayList<Listing>();
           }
-          channel.setListing( tmpListings );
+          tmpListings.add(
+            new Listing( RandomUtil.nextLong(), RandomUtil.nextLong(),
+              "listingTitle:" + RandomUtil.nextInt() ) );
+
         }
-        cache.setChannelList( channels );
+        channel.setListing( tmpListings );
+      }
+      cache.setChannelList( channels );
 
       try {
         Thread.sleep( 5 * 1000 );

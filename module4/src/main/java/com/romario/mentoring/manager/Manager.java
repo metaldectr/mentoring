@@ -6,6 +6,8 @@ import com.romario.mentoring.executor.reader.RatioReaderExecutor;
 import com.romario.mentoring.executor.writer.ChannelWriterExecutor;
 import com.romario.mentoring.executor.writer.ListingWriterExecutor;
 import com.romario.mentoring.executor.writer.RatioWriterExecutor;
+import com.romario.mentoring.model.Instruction;
+import com.romario.mentoring.model.MyReader;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -111,42 +113,26 @@ public class Manager
 
   public void runLiveLockTask()
   {
-    final boolean flag = true;
-    final Object resource2 = "resource2";
+    final MyReader myReader = new MyReader( "Reader1" );
+    final MyReader myReader1 = new MyReader( "Reader2" );
+    final Instruction instruction = new Instruction( myReader );
 
-
-    class MyReader
-      implements Runnable
+    new Thread( new Runnable()
     {
       public void run()
       {
-        while ( true ) {
-          synchronized( resource2 ) {
-            try {
-              if ( flag ) {
-                doPrint();
-                resource2.wait( 200 );
-              }
-              Thread.sleep( 1000 );
-              resource2.notify();
-            } catch( InterruptedException e ) {
-              e.printStackTrace();
-            }
-          }
-        }
+        myReader.doPrint( instruction, myReader );
       }
+    } ).start();
 
-      public void doPrint()
+    new Thread( new Runnable()
+    {
+      public void run()
       {
-        System.out.println( "Do Print" );
+        myReader1.doPrint( instruction, myReader1 );
       }
-    }
+    } ).start();
 
-    Thread t1 = new Thread( new MyReader() );
-    Thread t2 = new Thread( new MyReader() );
-
-    t1.start();
-    t2.start();
   }
 
 }
