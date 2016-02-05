@@ -28,7 +28,6 @@ public class RatioReaderExecutor
 
     do {
       sLogger.info( "RationReaderExecutor run" );
-      synchronized( cache.getChannelList() ) {
         List<Channel> channels = cache.getChannelList();
         List<Ratio> ratioList = new ArrayList<Ratio>();
 
@@ -53,7 +52,6 @@ public class RatioReaderExecutor
             }
           }
         }
-      }
       try {
         Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
       } catch( InterruptedException e ) {

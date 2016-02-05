@@ -27,7 +27,6 @@ public class RatioWriterExecutor
     do {
       sLogger.info(
         Thread.currentThread().getId() + " run" );
-      synchronized( cache.getChannelList() ) {
         List<Channel> channels = cache.getChannelList();
         List<Ratio> tmpRatioList = new ArrayList<Ratio>();
         for( Channel channel : channels ) {
@@ -44,7 +43,7 @@ public class RatioWriterExecutor
             }
           }
           cache.setChannelList( channels );
-        }
+
       }
       try {
         Thread.sleep( RandomUtil.randInt( 1, 2 ) * 1000 );

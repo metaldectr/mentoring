@@ -34,9 +34,9 @@ public class ChannelWriterExecutor
           new Channel( RandomUtil.nextLong(), "channel:" + RandomUtil.nextInt(),
             "description:" + RandomUtil.nextInt() ) );
       }
-      synchronized( cache.getChannelList() ) {
+
         cache.getChannelList().addAll( tmpChannels );
-      }
+
       try {
         Thread.sleep( 20 * 1000 );
       } catch( InterruptedException e ) {

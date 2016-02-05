@@ -25,7 +25,7 @@ public class ListingWriterExecutor
       "ListingWriterExecutor start: " + Thread.currentThread().getId() );
     do {
       sLogger.info( Thread.currentThread().getId() + "run" );
-      synchronized( cache.getChannelList() ) {
+
         List<Channel> channels = cache.getChannelList();
 
         for( Channel channel : channels ) {
@@ -42,7 +42,7 @@ public class ListingWriterExecutor
           channel.setListing( tmpListings );
         }
         cache.setChannelList( channels );
-      }
+
       try {
         Thread.sleep( 5 * 1000 );
       } catch( InterruptedException e ) {
