@@ -21,10 +21,9 @@ public class ListingWriterExecutor
 
   public void run()
   {
-    sLogger.info(
-      "ListingWriterExecutor start: " + Thread.currentThread().getId() );
+    sLogger.info("Started");
     do {
-      sLogger.info( Thread.currentThread().getId() + "run" );
+      sLogger.info("Run");
 
       List<Channel> channels = cache.getChannelList();
 

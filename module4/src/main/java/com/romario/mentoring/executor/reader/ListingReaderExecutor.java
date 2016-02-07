@@ -25,10 +25,10 @@ public class ListingReaderExecutor
 
   public void run()
   {
-    sLogger.info( "ListingReaderExecutor start: " + Thread.currentThread().getId() );
+    sLogger.info("Started");
 
     do {
-      sLogger.info( "ListingReaderExecutor run" );
+      sLogger.info("Run");
       List<Channel> channels = cache.getChannelList();
       Map<Long, Channel> channelsMap = calculateAverageRatio( channels );
       SortedSet<Long> keys = new TreeSet<Long>( channelsMap.keySet() );
@@ -36,9 +36,9 @@ public class ListingReaderExecutor
       for( int i = 0; i < 3; i++ ) {
         if ( iterator.hasNext() ) {
           Long key = iterator.next();
-          System.out.println(
-            "RThread2. ChannelTitle: " + channelsMap.get( key ).getTitle() +
-              "ChannelDescription: " + channelsMap.get( key ).getDesc() );
+          String title = channelsMap.get(key).getTitle();
+          String desc = channelsMap.get(key).getDesc();
+          sLogger.info(String.format("{chanelTitle:'%s', description:'%s'}", title, desc));
         }
       }
 

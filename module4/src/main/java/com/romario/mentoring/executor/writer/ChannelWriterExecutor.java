@@ -23,11 +23,9 @@ public class ChannelWriterExecutor
 
   public void run()
   {
-    sLogger.info(
-      "CahnnelWriterExecutor start: " + Thread.currentThread().getId() );
+    sLogger.info("Started");
     do {
-      sLogger.info(
-        Thread.currentThread().getId() + " run" );
+      sLogger.info("Run");
       List<Channel> tmpChannels = new ArrayList<Channel>();
       for( int i = 0; i < RandomUtil.randInt( MIN, MAX ); i++ ) {
         tmpChannels.add(

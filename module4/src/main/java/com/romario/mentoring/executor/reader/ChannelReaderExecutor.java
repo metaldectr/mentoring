@@ -19,16 +19,16 @@ public class ChannelReaderExecutor
 
   public void run()
   {
-    sLogger.info( "ChannelReaderExecutor start: " + Thread.currentThread().getId() );
+    sLogger.info("Started");
 
     do {
-      sLogger.info( "ChannelReaderExecutor run" );
+      sLogger.info("Run");
       List<Channel> channels = cache.getChannelList();
 
       for( Channel channel : channels ) {
-        System.out.println(
-          "RThread1. ChannelTitle: " + channel.getTitle() + ",  Description: " +
-            channel.getDesc() );
+        String title = channel.getTitle();
+        String desc = channel.getDesc();
+        sLogger.info(String.format("{chanelTitle:'%s', description:'%s'}", title, desc));
       }
 
       try {
