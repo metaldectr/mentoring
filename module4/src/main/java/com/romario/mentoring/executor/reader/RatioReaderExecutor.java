@@ -24,10 +24,10 @@ public class RatioReaderExecutor
 
   public void run()
   {
-    sLogger.info("Started");
+    sLogger.info( "RationReaderExecutor start: " + Thread.currentThread().getId() );
 
     do {
-      sLogger.info("Run");
+      sLogger.info( "RationReaderExecutor run" );
       List<Channel> channels = cache.getChannelList();
       List<Ratio> ratioList = new ArrayList<Ratio>();
 
@@ -46,9 +46,9 @@ public class RatioReaderExecutor
           Channel channel = findChannelById( channels, listingId );
           Listing listing = findListingById( channels, listingId );
           if ( channel != null && listing.getRatio() != null ) {
-            String title = channel.getTitle();
-            long ratio = listing.getRatio().getRatio();
-            sLogger.info(String.format("{chanelTitle:'%s', ratio:'%s'}", title, ratio));
+            System.out.println(
+              "RThread3. Channel: " + channel.getTitle() + ". Listing: " +
+                listing.getTitle() + ". Ratio: " + listing.getRatio().getRatio() );
           }
         }
       }

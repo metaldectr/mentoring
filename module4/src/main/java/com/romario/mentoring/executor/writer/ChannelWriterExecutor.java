@@ -23,9 +23,11 @@ public class ChannelWriterExecutor
 
   public void run()
   {
-    sLogger.info("Started");
+    sLogger.info(
+      "CahnnelWriterExecutor start: " + Thread.currentThread().getId() );
     do {
-      sLogger.info("Run");
+      sLogger.info(
+        Thread.currentThread().getId() + " run" );
       List<Channel> tmpChannels = new ArrayList<Channel>();
       for( int i = 0; i < RandomUtil.randInt( MIN, MAX ); i++ ) {
         tmpChannels.add(
@@ -34,7 +36,6 @@ public class ChannelWriterExecutor
       }
 
       cache.getChannelList().addAll( tmpChannels );
-
       try {
         Thread.sleep( 20 * 1000 );
       } catch( InterruptedException e ) {

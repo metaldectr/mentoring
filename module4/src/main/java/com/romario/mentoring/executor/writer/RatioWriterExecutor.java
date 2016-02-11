@@ -22,9 +22,11 @@ public class RatioWriterExecutor
 
   public void run()
   {
-    sLogger.info("Started");
+    sLogger.info(
+      "RationWriterExecutor start: " + Thread.currentThread().getId() );
     do {
-      sLogger.info("Run");
+      sLogger.info(
+        Thread.currentThread().getId() + " run" );
       List<Channel> channels = cache.getChannelList();
       List<Ratio> tmpRatioList = new ArrayList<Ratio>();
       for( Channel channel : channels ) {

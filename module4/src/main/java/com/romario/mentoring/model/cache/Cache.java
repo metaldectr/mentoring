@@ -38,6 +38,14 @@ public class Cache
     return localInstance;
   }
 
+  public synchronized void putInCache() {
+
+  }
+
+  /*public synchronized List<Channel> getFromCache() {
+
+  }*/
+
   public boolean isReadFlag()
   {
     return readFlag;

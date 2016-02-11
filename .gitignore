@@ -2,11 +2,11 @@
 .classpath
 .settings
 target
-log/
+log
 *.jar
 .pmd
 *.iml
 *.class
 .idea
-*.log
-logs/
+.log
+logs
