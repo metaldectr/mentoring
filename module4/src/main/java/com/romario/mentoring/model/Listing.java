@@ -11,10 +11,6 @@ public class Listing
   private String title;
   private Ratio ratio;
 
-  public Listing()
-  {
-  }
-
   public Listing( long id, long channelId, String title,
     Ratio ratio )
   {
@@ -29,26 +25,9 @@ public class Listing
     return ratio;
   }
 
-  public void setRatio( Ratio ratio )
-  {
-    this.ratio = ratio;
-  }
-
-  public Listing( long id, long channelId, String title )
-  {
-    this.id = id;
-    this.channelId = channelId;
-    this.title = title;
-  }
-
   public long getId()
   {
     return id;
-  }
-
-  public void setId( long id )
-  {
-    this.id = id;
   }
 
   public long getChannelId()
@@ -56,18 +35,9 @@ public class Listing
     return channelId;
   }
 
-  public void setChannelId( long channelId )
-  {
-    this.channelId = channelId;
-  }
-
   public String getTitle()
   {
     return title;
   }
 
-  public void setTitle( String title )
-  {
-    this.title = title;
-  }
 }

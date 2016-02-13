@@ -1,5 +1,7 @@
 package com.romario.mentoring.model;
 
+import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 
 /**
@@ -12,10 +14,6 @@ public class Channel
   private String desc;
   private List<Listing> listing;
 
-  public Channel()
-  {
-  }
-
   public Channel( long id, String title, String desc,
     List<Listing> listing )
   {
@@ -25,21 +23,24 @@ public class Channel
     this.listing = listing;
   }
 
-  public List<Listing> getListing()
+  public synchronized List<Listing> getListing()
   {
     return listing;
   }
 
-  public void setListing( List<Listing> listing )
+  public synchronized void setListing( List<Listing> listing )
   {
-    this.listing = listing;
-  }
+    if (this.listing == null) {
+      this.listing = new ArrayList<Listing>(  );
+    }
+    try{
+    for (Listing listing1 : listing) {
+      this.listing.add( listing1 );
+    }
 
-  public Channel( long id, String title, String desc )
-  {
-    this.id = id;
-    this.title = title;
-    this.desc = desc;
+    } catch( Exception e ) {
+      System.out.println("s");
+    }
   }
 
   public long getId()
@@ -47,19 +48,9 @@ public class Channel
     return id;
   }
 
-  public void setId( long id )
-  {
-    this.id = id;
-  }
-
   public String getTitle()
   {
     return title;
-  }
-
-  public void setTitle( String title )
-  {
-    this.title = title;
   }
 
   public String getDesc()
@@ -67,8 +58,18 @@ public class Channel
     return desc;
   }
 
-  public void setDesc( String desc )
+  @Override
+  public boolean equals( Object obj )
   {
-    this.desc = desc;
+    if ( obj == this ) {
+      return true;
+    }
+    if ( obj == null || obj.getClass() != this.getClass() ) {
+      return false;
+    }
+    Channel channel = (Channel)obj;
+    return id == channel.id && ( title == channel.getTitle() ||
+      ( desc == channel.getDesc() && listing.equals( channel.getListing() ) ) );
+
   }
 }

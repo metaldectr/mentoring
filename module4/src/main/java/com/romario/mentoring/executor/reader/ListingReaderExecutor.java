@@ -6,6 +6,7 @@ import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,15 +31,19 @@ public class ListingReaderExecutor
     do {
       sLogger.info( "ListingReaderExecutor run" );
       List<Channel> channels = cache.getChannelList();
-      Map<Long, Channel> channelsMap = calculateAverageRatio( channels );
+      Map<Long, Channel> channelsMap = calculateAverageRatio( new ArrayList<Channel>( channels ) );
       SortedSet<Long> keys = new TreeSet<Long>( channelsMap.keySet() );
-      Iterator<Long> iterator = keys.iterator();
-      for( int i = 0; i < 3; i++ ) {
-        if ( iterator.hasNext() ) {
-          Long key = iterator.next();
-          System.out.println(
-            "RThread2. ChannelTitle: " + channelsMap.get( key ).getTitle() +
-              "ChannelDescription: " + channelsMap.get( key ).getDesc() );
+      if (keys.size() > 2) {
+        Iterator<Long> iterator = keys.iterator();
+        for( int i = 0; i < 3; i++ ) {
+          if ( iterator.hasNext() ) {
+            Long key = iterator.next();
+            sLogger.info( "RThread2. ChannelTitle: " + channelsMap.get( key ).getTitle() +
+              " ChannelDescription: " + channelsMap.get( key ).getDesc() );
+            /*System.out.println(
+              "RThread2. ChannelTitle: " + channelsMap.get( key ).getTitle() +
+                " ChannelDescription: " + channelsMap.get( key ).getDesc() );*/
+          }
         }
       }
 
@@ -57,7 +62,7 @@ public class ListingReaderExecutor
     for( Channel channel : channels ) {
       if ( channel.getListing() != null ) {
         if ( channel.getListing() != null && !channel.getListing().isEmpty() ) {
-          long averageRatio = calculateAverage( channel.getListing() );
+          long averageRatio = calculateAverage( new ArrayList<Listing>( channel.getListing() ) );
           averageRatioMap.put( averageRatio, channel );
         }
       }
@@ -70,12 +75,15 @@ public class ListingReaderExecutor
   {
     long count = 0;
     long sum = 0;
-    for( Listing listing : listings ) {
-      if ( listing.getRatio() != null ) {
-        sum += listing.getRatio().getRatio();
-        count++;
+    if ( listings != null && !listings.isEmpty() ) {
+      for( Listing listing : listings ) {
+        if ( listing != null && listing.getRatio() != null ) {
+          sum += listing.getRatio().getRatio();
+          count++;
+        }
       }
     }
+
     if ( count != 0 ) {
       return sum / count;
     } else {

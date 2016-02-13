@@ -8,10 +8,6 @@ public class Ratio
   private long listingId;
   private long ratio;
 
-  public Ratio()
-  {
-  }
-
   public Ratio( long listingId, long ratio )
   {
     this.listingId = listingId;
@@ -23,18 +19,9 @@ public class Ratio
     return listingId;
   }
 
-  public void setListingId( long listingId )
-  {
-    this.listingId = listingId;
-  }
-
   public long getRatio()
   {
     return ratio;
   }
 
-  public void setRatio( long ratio )
-  {
-    this.ratio = ratio;
-  }
 }

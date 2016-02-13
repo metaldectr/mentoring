@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 /**
  * ListingWriterExecutor class
@@ -25,23 +26,30 @@ public class ListingWriterExecutor
       "ListingWriterExecutor start: " + Thread.currentThread().getId() );
     do {
       sLogger.info( Thread.currentThread().getId() + "run" );
+      List<Channel> channels = new ArrayList<Channel>( cache.getChannelList() );
+/*      try {
+        if (cache.getLock().tryLock()) {*/
+          int countIter = channels.size();
+          for( int i = 0; i < countIter; i++ ) {
+            Channel channel = channels.get( i );
+            int count = RandomUtil.randInt( 1, 2 );
+            List<Listing> tmpListings = channel.getListing();
+            for( int j = 0; j < count; j++ ) {
+              if ( tmpListings == null ) {
+                tmpListings = new ArrayList<Listing>(count);
+              }
+              tmpListings.add(
+                new Listing( RandomUtil.randInt( 1, 3 ), RandomUtil.nextLong(),
+                  "listingTitle:" + RandomUtil.nextInt(), null ) );
+            }
 
-      List<Channel> channels = cache.getChannelList();
-
-      for( Channel channel : channels ) {
-        List<Listing> tmpListings = channel.getListing();
-        for( int j = 0; j < RandomUtil.randInt( 0, 5 ); j++ ) {
-          if ( tmpListings == null ) {
-            tmpListings = new ArrayList<Listing>();
+            channel.setListing( tmpListings );
           }
-          tmpListings.add(
-            new Listing( RandomUtil.nextLong(), RandomUtil.nextLong(),
-              "listingTitle:" + RandomUtil.nextInt() ) );
-
-        }
-        channel.setListing( tmpListings );
-      }
-      cache.setChannelList( channels );
+          cache.setChannelList( channels );
+/*        }
+      } finally {
+        cache.getLock().unlock();
+      }*/
 
       try {
         Thread.sleep( 5 * 1000 );

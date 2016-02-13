@@ -26,9 +26,11 @@ public class ChannelReaderExecutor
       List<Channel> channels = cache.getChannelList();
 
       for( Channel channel : channels ) {
-        System.out.println(
-          "RThread1. ChannelTitle: " + channel.getTitle() + ",  Description: " +
-            channel.getDesc() );
+        sLogger.info( "RThread1. ChannelID: " + channel.getId() + " ChannelTitle: " + channel.getTitle() + ",  Description: " +
+          channel.getDesc() );
+        /*System.out.println(
+          "RThread1. ChannelID: " + channel.getId() + " ChannelTitle: " + channel.getTitle() + ",  Description: " +
+            channel.getDesc() );*/
       }
 
       try {
