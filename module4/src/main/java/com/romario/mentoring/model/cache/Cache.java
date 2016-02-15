@@ -5,38 +5,34 @@ import java.util.*;
 /**
  * Cache model class
  */
-public class Cache
-{
-  private static volatile Cache instance;
+public class Cache {
+    private static volatile Cache INSTANCE = new Cache();
+    private final Map<Long, Channel> storage;
 
-  private final List<Channel> channelList;
-
-  private Cache()
-  {
-    channelList = new ArrayList<Channel>();
-  }
-
-  public static Cache getInstance()
-  {
-    Cache localInstance = instance;
-    if ( localInstance == null ) {
-      synchronized( Cache.class ) {
-        localInstance = instance;
-        if ( localInstance == null ) {
-          instance = localInstance = new Cache();
-        }
-      }
+    private Cache() {
+        storage = Collections.synchronizedMap(new HashMap<Long, Channel>());
     }
-    return localInstance;
-  }
 
-  public synchronized List<Channel> getChannelList()
-  {
-    return new ArrayList<Channel>(channelList);
-  }
+    public static Cache getINSTANCE() {
+        return INSTANCE;
+    }
 
-  public synchronized void setChannelList(final List<Channel> channelList )
-  {
-    this.channelList.addAll( channelList );
-  }
+    public List<Channel> getChannels() {
+        return new ArrayList<Channel>(storage.values());
+    }
+
+    public void addChannels(final List<Channel> channels) {
+        Map<Long, Channel> tmp = new HashMap<Long, Channel>();
+        for (Channel channel : channels) {
+            tmp.put(channel.getId(), channel);
+        }
+
+        this.storage.putAll(tmp);
+    }
+
+    public int getCacheSize() {
+        return this.storage.size();
+    }
+
+
 }

@@ -2,9 +2,7 @@ package com.romario.mentoring.runnable.cache.reader;
 
 import com.romario.mentoring.model.cache.Channel;
 import com.romario.mentoring.model.cache.Listing;
-import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.runnable.cache.AbstractCacheExecutor;
-import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +27,8 @@ public class ListingReaderExecutor extends AbstractCacheExecutor {
 
     @Override
     protected void doThis() {
-        sLogger.info("Run");
-        List<Channel> channels = cache.getChannelList();
+        LOG.info("Run");
+        List<Channel> channels = cache.getChannels();
         Map<Long, Channel> channelsMap = calculateAverageRatio(new ArrayList<Channel>(channels));
         SortedSet<Long> keys = new TreeSet<Long>(channelsMap.keySet());
         if (keys.size() > 2) {
@@ -40,7 +38,7 @@ public class ListingReaderExecutor extends AbstractCacheExecutor {
                     Long key = iterator.next();
                     String channelTitle = channelsMap.get(key).getTitle();
                     String channelDescription = channelsMap.get(key).getDesc();
-                    sLogger.info($("{ chanelTitle: '%s', channelDescription: '%s' }",
+                    LOG.info($("{ chanelTitle: '%s', channelDescription: '%s' }",
                             channelTitle, channelDescription));
                 }
             }
@@ -52,9 +50,9 @@ public class ListingReaderExecutor extends AbstractCacheExecutor {
     private Map<Long, Channel> calculateAverageRatio(List<Channel> channels) {
         Map<Long, Channel> averageRatioMap = new HashMap<Long, Channel>();
         for (Channel channel : channels) {
-            if (channel.getListing() != null) {
-                if (channel.getListing() != null && !channel.getListing().isEmpty()) {
-                    long averageRatio = calculateAverage(new ArrayList<Listing>(channel.getListing()));
+            if (channel.getListings() != null) {
+                if (channel.getListings() != null && !channel.getListings().isEmpty()) {
+                    long averageRatio = calculateAverage(new ArrayList<Listing>(channel.getListings()));
                     averageRatioMap.put(averageRatio, channel);
                 }
             }
@@ -69,7 +67,7 @@ public class ListingReaderExecutor extends AbstractCacheExecutor {
         if (listings != null && !listings.isEmpty()) {
             for (Listing listing : listings) {
                 if (listing != null && listing.getRatio() != null) {
-                    sum += listing.getRatio().getRatio();
+                    sum += listing.getRatio().getValue();
                     count++;
                 }
             }

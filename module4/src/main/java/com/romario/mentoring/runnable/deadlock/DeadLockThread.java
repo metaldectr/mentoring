@@ -1,14 +1,16 @@
 package com.romario.mentoring.runnable.deadlock;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DeadLockThread extends Thread {
-    private static final Logger sLogger = Logger.getLogger(DeadLockThread.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DeadLockThread.class);
     private Object resource1;
     private Object resource2;
 
     public DeadLockThread(String name) {
         super(name);
+        setPriority(MIN_PRIORITY);
     }
 
     public DeadLockThread with(final Object resource1, final Object resource2) {
@@ -24,11 +26,11 @@ public class DeadLockThread extends Thread {
         }
 
         synchronized (resource1) {
-            sLogger.info("Locked on: " + resource1);
+            LOG.info("Locked on: {}", resource1);
             try {
                 Thread.sleep(50);
                 synchronized (resource2) {
-                    sLogger.info("Locked on: " + resource2);
+                    LOG.info("Locked on: {}", resource2);
                 }
             } catch (InterruptedException ignore) {
             }

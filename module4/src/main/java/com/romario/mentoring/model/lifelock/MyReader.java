@@ -1,6 +1,7 @@
 package com.romario.mentoring.model.lifelock;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.romario.mentoring.util.ThreadUtil.MILLISECONDS;
 import static com.romario.mentoring.util.ThreadUtil.sleepFor;
@@ -9,7 +10,7 @@ import static com.romario.mentoring.util.ThreadUtil.sleepFor;
  */
 public class MyReader
 {
-  private static final Logger sLogger = Logger.getLogger(MyReader.class);
+  private static final Logger sLogger = LoggerFactory.getLogger(MyReader.class);
   private volatile boolean shouldPrint = true;
   private final String name;
 
@@ -29,14 +30,14 @@ public class MyReader
       }
 
       if ( another.shouldPrint ) {
-        sLogger.info("Give a way to: " + another.name);
+        sLogger.info("Give a way to: {}", another.name);
         instruction.reader = another;
         continue;
       }
 
       instruction.use();
       this.shouldPrint = false;
-      sLogger.info("Instruction is used by: " + this.name);
+      sLogger.info("Instruction is used by: {}", this.name);
       instruction.reader = another;
     }
   }

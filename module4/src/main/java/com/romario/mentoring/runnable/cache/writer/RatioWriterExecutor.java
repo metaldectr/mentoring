@@ -3,10 +3,8 @@ package com.romario.mentoring.runnable.cache.writer;
 import com.romario.mentoring.model.cache.Channel;
 import com.romario.mentoring.model.cache.Listing;
 import com.romario.mentoring.model.cache.Ratio;
-import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.runnable.cache.AbstractCacheExecutor;
 import com.romario.mentoring.util.RandomUtil;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -24,10 +22,10 @@ public class RatioWriterExecutor extends AbstractCacheExecutor {
 
     @Override
     protected void doThis() {
-        sLogger.info("Run");
-        List<Channel> channels = cache.getChannelList();
+        LOG.info("Run");
+        List<Channel> channels = cache.getChannels();
         for (Channel channel : channels) {
-            List<Listing> listings = channel.getListing();
+            List<Listing> listings = channel.getListings();
             if (listings != null && !listings.isEmpty()) {
                 for (int i = 0; i < listings.size(); i++) {
                     Listing listing = listings.get(i);
@@ -35,12 +33,12 @@ public class RatioWriterExecutor extends AbstractCacheExecutor {
                         if (listing.getRatio() != null) {
                             Ratio ratio = listing.getRatio();
                             listings.add(
-                                    i, new Listing(listing.getId(), listing.getChannelId(),
+                                    i, new Listing(listing.getId(),
                                             listings.get(i).getTitle(),
-                                            new Ratio(ratio.getListingId(), ratio.getRatio())));
+                                            new Ratio(ratio.getListingId(), ratio.getValue())));
                         } else {
                             listings.add(
-                                    i, new Listing(listing.getId(), listing.getChannelId(),
+                                    i, new Listing(listing.getId(),
                                             listing.getTitle(),
                                             new Ratio(
                                                     RandomUtil.nextLong(), RandomUtil.nextLong())));
@@ -48,7 +46,7 @@ public class RatioWriterExecutor extends AbstractCacheExecutor {
                     }
                 }
             }
-            cache.setChannelList(channels);
+            cache.addChannels(channels);
         }
         sleepFor(1, SECONDS);
     }

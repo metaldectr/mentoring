@@ -9,16 +9,13 @@ import java.util.Date;
 /**
  * Main class
  */
-public class Main
-{
-  public static void main( String[] args )
-  {
+public class Main {
+    public static void main(String[] args) {
     Manager manager = new Manager();
 
     manager.runCacheTask();
-
 //    manager.runDeadlockTask();
 
 //    manager.runLiveLockTask();
-  }
+    }
 }

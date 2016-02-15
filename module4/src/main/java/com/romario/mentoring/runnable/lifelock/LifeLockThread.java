@@ -2,16 +2,15 @@ package com.romario.mentoring.runnable.lifelock;
 
 import com.romario.mentoring.model.lifelock.Instruction;
 import com.romario.mentoring.model.lifelock.MyReader;
-import org.apache.log4j.Logger;
 
 public class LifeLockThread extends Thread {
-    private static final Logger sLogger = Logger.getLogger(LifeLockThread.class);
     private MyReader reader1;
     private MyReader reader2;
     private Instruction instruction;
 
     public LifeLockThread(String name) {
         super(name);
+        setPriority(MIN_PRIORITY);
     }
 
     public LifeLockThread withReaders(final MyReader reader1, final MyReader reader2) {

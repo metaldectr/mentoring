@@ -25,12 +25,12 @@ public class Manager
    */
   public void runCacheTask()
   {
-    new ChannelWriterExecutor(  "WThread_1_Channel" ).start();
-    new ListingWriterExecutor(  "WThread_2_Listing" ).start();
-    new RatioWriterExecutor(    "WThread_3_Ratio"   ).start();
-    new ChannelReaderExecutor(  "RThread_1_Channel" ).start();
-    new ListingReaderExecutor(  "RThread_2_Listing" ).start();
-    new RatioReaderExecutor(    "RThread_3_Ratio"   ).start();
+    new ChannelWriterExecutor(  "W_Thread_1_Channel" ).start();
+//    new ListingWriterExecutor(  "W_Thread_2_Listing" ).start();
+//    new RatioWriterExecutor(    "W_Thread_3_Ratio"   ).start();
+    new ChannelReaderExecutor(  "R_Thread_1_Channel" ).start();
+//    new ListingReaderExecutor(  "R_Thread_2_Listing" ).start();
+//    new RatioReaderExecutor(    "R_Thread_3_Ratio"   ).start();
 
     sleepFor(5, MINUTES);
   }

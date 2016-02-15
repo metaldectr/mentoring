@@ -25,13 +25,13 @@ public class RatioReaderExecutor extends AbstractCacheExecutor {
 
     @Override
     protected void doThis() {
-        sLogger.info("Run");
-        List<Channel> channels = new ArrayList<Channel>(cache.getChannelList());
+        LOG.info("Run");
+        List<Channel> channels = new ArrayList<Channel>(cache.getChannels());
         List<Ratio> ratioList = new ArrayList<Ratio>();
 
         for (Channel channel : channels) {
-            if (channel.getListing() != null) {
-                for (Listing listing : new ArrayList<Listing>(channel.getListing())) {
+            if (channel.getListings() != null) {
+                for (Listing listing : new ArrayList<Listing>(channel.getListings())) {
                     ratioList.add(listing.getRatio());
                 }
             }
@@ -47,8 +47,8 @@ public class RatioReaderExecutor extends AbstractCacheExecutor {
                 if (channel != null && listing.getRatio() != null) {
                     String channelTitle = channel.getTitle();
                     String listingTitle = listing.getTitle();
-                    long ratio = listing.getRatio().getRatio();
-                    sLogger.info($("{ chanelTitle: '%s', listingTitle: '%s', ratio: '%s' }",
+                    long ratio = listing.getRatio().getValue();
+                    LOG.info($("{ chanelTitle: '%s', listingTitle: '%s', ratio: '%s' }",
                             channelTitle, listingTitle, ratio));
                 }
             }
@@ -59,8 +59,8 @@ public class RatioReaderExecutor extends AbstractCacheExecutor {
 
     private Listing findListingById(List<Channel> channelList, long listingId) {
         for (Channel channel : channelList) {
-            if (channel.getListing() != null && !channel.getListing().isEmpty()) {
-                for (Listing listing : channel.getListing()) {
+            if (channel.getListings() != null && !channel.getListings().isEmpty()) {
+                for (Listing listing : channel.getListings()) {
                     if (listing.getId() == listingId) {
                         return listing;
                     }
@@ -72,8 +72,8 @@ public class RatioReaderExecutor extends AbstractCacheExecutor {
 
     private Channel findChannelById(List<Channel> channelList, long listingId) {
         for (Channel channel : channelList) {
-            if (channel.getListing() != null && !channel.getListing().isEmpty()) {
-                for (Listing listing : channel.getListing()) {
+            if (channel.getListings() != null && !channel.getListings().isEmpty()) {
+                for (Listing listing : channel.getListings()) {
                     if (listing.getId() == listingId) {
                         return channel;
                     }
@@ -89,9 +89,9 @@ public class RatioReaderExecutor extends AbstractCacheExecutor {
                         if (o1 == null || o2 == null) {
                             return 0;
                         }
-                        if (o1.getRatio() < o2.getRatio()) {
+                        if (o1.getValue() < o2.getValue()) {
                             return -1;
-                        } else if (o1.getRatio() > o2.getRatio()) {
+                        } else if (o1.getValue() > o2.getValue()) {
                             return 1;
                         } else {
                             return 0;
