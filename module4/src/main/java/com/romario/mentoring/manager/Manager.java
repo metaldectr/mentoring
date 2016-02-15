@@ -2,20 +2,17 @@ package com.romario.mentoring.manager;
 
 import com.romario.mentoring.model.lifelock.Instruction;
 import com.romario.mentoring.model.lifelock.MyReader;
-import com.romario.mentoring.runnable.deadlock.DeadLockThread;
-import com.romario.mentoring.runnable.lifelock.LifeLockThread;
 import com.romario.mentoring.runnable.cache.reader.ChannelReaderExecutor;
 import com.romario.mentoring.runnable.cache.reader.ListingReaderExecutor;
 import com.romario.mentoring.runnable.cache.reader.RatioReaderExecutor;
 import com.romario.mentoring.runnable.cache.writer.ChannelWriterExecutor;
 import com.romario.mentoring.runnable.cache.writer.ListingWriterExecutor;
 import com.romario.mentoring.runnable.cache.writer.RatioWriterExecutor;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.romario.mentoring.runnable.deadlock.DeadLockThread;
+import com.romario.mentoring.runnable.lifelock.LifeLockThread;
 
 import static com.romario.mentoring.util.ThreadUtil.MINUTES;
-import static com.romario.mentoring.util.ThreadUtil.sleep;
+import static com.romario.mentoring.util.ThreadUtil.sleepFor;
 
 
 /**
@@ -28,20 +25,14 @@ public class Manager
    */
   public void runCacheTask()
   {
-    List<Thread> threads = new ArrayList<Thread>();
+    new ChannelWriterExecutor(  "WThread_1_Channel" ).start();
+    new ListingWriterExecutor(  "WThread_2_Listing" ).start();
+    new RatioWriterExecutor(    "WThread_3_Ratio"   ).start();
+    new ChannelReaderExecutor(  "RThread_1_Channel" ).start();
+    new ListingReaderExecutor(  "RThread_2_Listing" ).start();
+    new RatioReaderExecutor(    "RThread_3_Ratio"   ).start();
 
-    threads.add( new Thread( new ChannelWriterExecutor(),   "WriteThread_1_Channel" ) );
-    threads.add( new Thread( new ListingWriterExecutor(),   "WriteThread_2_Listing" ) );
-    threads.add( new Thread( new RatioWriterExecutor(),     "WriteThread_3_Ratio" ) );
-    threads.add( new Thread( new ChannelReaderExecutor(),   "ReadThread_1_Channel" ) );
-    threads.add( new Thread( new ListingReaderExecutor(),   "ReadThread_2_Listing" ) );
-    threads.add( new Thread( new RatioReaderExecutor(),     "ReadThread_3_Ratio" ) );
-
-    for( Thread thread : threads ) {
-      thread.start();
-    }
-
-    sleep(5, MINUTES);
+    sleepFor(5, MINUTES);
   }
 
   /**

@@ -2,37 +2,36 @@ package com.romario.mentoring.runnable.cache.reader;
 
 import com.romario.mentoring.model.cache.Channel;
 import com.romario.mentoring.model.cache.Cache;
-import com.romario.mentoring.util.RandomUtil;
+import com.romario.mentoring.runnable.cache.AbstractCacheExecutor;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 
+import static com.romario.mentoring.util.PrintUtil.$;
+import static com.romario.mentoring.util.ThreadUtil.*;
+
 /**
  * ChannelReaderExecutor class
  */
-public class ChannelReaderExecutor
-  implements Runnable
-{
-  private static final Logger sLogger = Logger.getLogger(
-    ChannelReaderExecutor.class.getName() );
-  private static final Cache cache = Cache.getInstance();
+public class ChannelReaderExecutor extends AbstractCacheExecutor {
 
-  public void run()
-  {
-    sLogger.info( "ChannelReaderExecutor start: " + Thread.currentThread().getId() );
+    public ChannelReaderExecutor(String name) {
+        super(name);
+    }
 
-    do {
-      sLogger.info( "ChannelReaderExecutor run" );
-      List<Channel> channels = cache.getChannelList();
+    @Override
+    protected void doThis() {
+        sLogger.info("Run");
+        List<Channel> channels = cache.getChannelList();
 
-      for( Channel channel : channels ) {
-        sLogger.info( "RThread1. ChannelID: " + channel.getId() + " ChannelTitle: " + channel.getTitle() + ",  Description: " +
-          channel.getDesc() );
-      }
+        for (Channel channel : channels) {
+            long channelId = channel.getId();
+            String channelTitle = channel.getTitle();
+            String channelDescription = channel.getDesc();
+            sLogger.info($("{ chanelID: '%s', chanelTitle: '%s', channelDescription: '%s' }",
+                    channelId, channelTitle, channelDescription));
+        }
 
-      try {
-        Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
-      } catch( InterruptedException ignore ) {}
-    } while ( true );
-  }
+        sleepFor(3, SECONDS);
+    }
 }

@@ -8,7 +8,7 @@ public class ThreadUtil {
     public static final TimeUnit MINUTES = TimeUnit.MINUTES;
 
 
-    public static void sleep(int time, TimeUnit unit){
+    public static void sleepFor(int time, TimeUnit unit){
         try {
             Thread.sleep(unit.toMillis(time));
         } catch (InterruptedException ignore) {}

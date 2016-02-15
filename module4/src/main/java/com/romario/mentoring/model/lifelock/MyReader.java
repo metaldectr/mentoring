@@ -3,7 +3,7 @@ package com.romario.mentoring.model.lifelock;
 import org.apache.log4j.Logger;
 
 import static com.romario.mentoring.util.ThreadUtil.MILLISECONDS;
-import static com.romario.mentoring.util.ThreadUtil.sleep;
+import static com.romario.mentoring.util.ThreadUtil.sleepFor;
 /**
  * MyReader model class
  */
@@ -24,7 +24,7 @@ public class MyReader
     while ( this.shouldPrint ) {
 
       if ( instruction.reader != this ) {
-        sleep(1, MILLISECONDS);
+        sleepFor(1, MILLISECONDS);
         continue;
       }
 
