@@ -6,7 +6,7 @@ import java.util.*;
  * Cache model class
  */
 public class Cache {
-    private static volatile Cache INSTANCE = new Cache();
+    private static final Cache INSTANCE = new Cache();
     private final Map<Long, Channel> storage;
 
     private Cache() {
@@ -21,6 +21,9 @@ public class Cache {
         return new ArrayList<Channel>(storage.values());
     }
 
+    public void addChannel(final Channel channel) {
+        this.storage.put(channel.getId(), channel);
+    }
     public void addChannels(final List<Channel> channels) {
         Map<Long, Channel> tmp = new HashMap<Long, Channel>();
         for (Channel channel : channels) {

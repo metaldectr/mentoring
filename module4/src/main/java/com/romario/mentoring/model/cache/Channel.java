@@ -15,20 +15,15 @@ public class Channel {
         this(id, title, desc, new HashSet<Listing>());
     }
 
-    public Channel(final long id, final String title, final String desc, final Set<Listing> listings) {
+    public Channel(final long id, final String title, final String desc, final Collection<Listing> listings) {
         this.id = id;
         this.title = title;
         this.desc = desc;
-        this.listings = (listings == null) ? new HashSet<Listing>() : listings;
+        this.listings = (listings == null) ? new HashSet<Listing>() : new HashSet<Listing>(listings);
     }
 
     public List<Listing> getListings() {
         return new ArrayList<Listing>(listings);
-    }
-
-    public void addListings(final Collection<Listing> listings) {
-        if (listings == null) return;
-        this.listings.addAll(listings);
     }
 
     public long getId() {

@@ -38,7 +38,7 @@ public class ListingWriterExecutor extends AbstractCacheExecutor {
                                 "listingTitle:" + RandomUtil.nextInt(), null));
             }
 
-            channel.addListings(tmpListings);
+//            channel.addListings(tmpListings);
         }
         cache.addChannels(channels);
         sleepFor(5, SECONDS);
