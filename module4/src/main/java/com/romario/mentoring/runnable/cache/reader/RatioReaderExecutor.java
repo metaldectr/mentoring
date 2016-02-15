@@ -1,17 +1,16 @@
-package com.romario.mentoring.executor.reader;
+package com.romario.mentoring.runnable.cache.reader;
 
-import com.romario.mentoring.model.Channel;
-import com.romario.mentoring.model.Listing;
-import com.romario.mentoring.model.Ratio;
+import com.romario.mentoring.model.cache.Channel;
+import com.romario.mentoring.model.cache.Listing;
+import com.romario.mentoring.model.cache.Ratio;
 import com.romario.mentoring.model.cache.Cache;
-import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.TimeUnit;
 
 /**
  * RatioReaderExecutor class
@@ -26,11 +25,7 @@ public class RatioReaderExecutor
   public void run()
   {
     sLogger.info( "RationReaderExecutor start: " + Thread.currentThread().getId() );
-    final Lock lock = cache.getLock();
     do {
-/*      try {
-         lock.lock();*/
-
           sLogger.info( "RationReaderExecutor run" );
           List<Channel> channels = new ArrayList<Channel>( cache.getChannelList() );
           List<Ratio> ratioList = new ArrayList<Ratio>();
@@ -54,24 +49,14 @@ public class RatioReaderExecutor
                 sLogger.info( "RThread3. Channel: " + channel.getTitle() + ". Listing: " +
                   listing.getTitle() + ". Ratio: " +
                   listing.getRatio().getRatio() );
-                /*System.out.println(
-                  "RThread3. Channel: " + channel.getTitle() + ". Listing: " +
-                    listing.getTitle() + ". Ratio: " +
-                    listing.getRatio().getRatio() );*/
               }
             }
           }
 
-/*      } finally {
-        lock.unlock();
-      }*/
       try {
-        Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
-      } catch( InterruptedException e ) {
-        sLogger.error( "InterruptedException ", e );
-        //e.printStackTrace();
-      }
-    } while ( cache.isReadFlag() );
+        Thread.sleep( TimeUnit.SECONDS.toMillis(1) );
+      } catch( InterruptedException ignore ) {}
+    } while ( true );
 
   }
 

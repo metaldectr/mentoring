@@ -1,15 +1,13 @@
-package com.romario.mentoring.executor.writer;
+package com.romario.mentoring.runnable.cache.writer;
 
-import com.romario.mentoring.model.Channel;
-import com.romario.mentoring.model.Listing;
-import com.romario.mentoring.model.Ratio;
+import com.romario.mentoring.model.cache.Channel;
+import com.romario.mentoring.model.cache.Listing;
+import com.romario.mentoring.model.cache.Ratio;
 import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 
 /**
  * RatioWriterExecutor class
@@ -29,8 +27,6 @@ public class RatioWriterExecutor
       sLogger.info(
         Thread.currentThread().getId() + " run" );
       List<Channel> channels = cache.getChannelList();
-/*      try {
-        if (cache.getLock().tryLock()) {*/
           for( Channel channel : channels ) {
             List<Listing> listings = channel.getListing();
             if ( listings != null && !listings.isEmpty() ) {
@@ -55,17 +51,10 @@ public class RatioWriterExecutor
             }
             cache.setChannelList( channels );
           }
-/*        }
-      } finally {
-        cache.getLock().unlock();
-      }*/
       try {
         Thread.sleep( RandomUtil.randInt( 1, 2 ) * 1000 );
-      } catch( InterruptedException e ) {
-        sLogger.error( "InterruptedException for thread sleep", e );
-        //e.printStackTrace();
-      }
-    } while ( cache.isWriteFlag() );
+      } catch( InterruptedException ignore ) {}
+    } while ( true );
 
   }
 }

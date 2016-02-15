@@ -1,14 +1,14 @@
-package com.romario.mentoring.executor.writer;
+package com.romario.mentoring.runnable.cache.writer;
 
-import com.romario.mentoring.model.Channel;
-import com.romario.mentoring.model.Listing;
+import com.romario.mentoring.model.cache.Channel;
+import com.romario.mentoring.model.cache.Listing;
 import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ListingWriterExecutor class
@@ -27,8 +27,6 @@ public class ListingWriterExecutor
     do {
       sLogger.info( Thread.currentThread().getId() + "run" );
       List<Channel> channels = new ArrayList<Channel>( cache.getChannelList() );
-/*      try {
-        if (cache.getLock().tryLock()) {*/
           int countIter = channels.size();
           for( int i = 0; i < countIter; i++ ) {
             Channel channel = channels.get( i );
@@ -46,18 +44,10 @@ public class ListingWriterExecutor
             channel.setListing( tmpListings );
           }
           cache.setChannelList( channels );
-/*        }
-      } finally {
-        cache.getLock().unlock();
-      }*/
-
       try {
-        Thread.sleep( 5 * 1000 );
-      } catch( InterruptedException e ) {
-        sLogger.error( "InterruptedException for thread sleep", e );
-        //e.printStackTrace();
-      }
-    } while ( cache.isWriteFlag() );
+        Thread.sleep( TimeUnit.SECONDS.toMillis(5) );
+      } catch( InterruptedException ignore ) {}
+    } while ( true );
   }
 
 }

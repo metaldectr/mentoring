@@ -1,4 +1,4 @@
-package com.romario.mentoring.main;
+package com.romario.mentoring;
 
 import com.romario.mentoring.manager.Manager;
 
@@ -14,10 +14,11 @@ public class Main
   public static void main( String[] args )
   {
     Manager manager = new Manager();
+
     manager.runCacheTask();
 
-    //manager.runDeadlockTask();
+//    manager.runDeadlockTask();
 
-    //manager.runLiveLockTask();
+//    manager.runLiveLockTask();
   }
 }

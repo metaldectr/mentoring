@@ -1,141 +1,85 @@
 package com.romario.mentoring.manager;
 
-import com.romario.mentoring.executor.reader.ChannelReaderExecutor;
-import com.romario.mentoring.executor.reader.ListingReaderExecutor;
-import com.romario.mentoring.executor.reader.RatioReaderExecutor;
-import com.romario.mentoring.executor.writer.ChannelWriterExecutor;
-import com.romario.mentoring.executor.writer.ListingWriterExecutor;
-import com.romario.mentoring.executor.writer.RatioWriterExecutor;
-import com.romario.mentoring.model.Instruction;
-import com.romario.mentoring.model.MyReader;
-import org.apache.log4j.Logger;
+import com.romario.mentoring.model.lifelock.Instruction;
+import com.romario.mentoring.model.lifelock.MyReader;
+import com.romario.mentoring.runnable.deadlock.DeadLockThread;
+import com.romario.mentoring.runnable.lifelock.LifeLockThread;
+import com.romario.mentoring.runnable.cache.reader.ChannelReaderExecutor;
+import com.romario.mentoring.runnable.cache.reader.ListingReaderExecutor;
+import com.romario.mentoring.runnable.cache.reader.RatioReaderExecutor;
+import com.romario.mentoring.runnable.cache.writer.ChannelWriterExecutor;
+import com.romario.mentoring.runnable.cache.writer.ListingWriterExecutor;
+import com.romario.mentoring.runnable.cache.writer.RatioWriterExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.romario.mentoring.util.ThreadUtil.MINUTES;
+import static com.romario.mentoring.util.ThreadUtil.sleep;
+
 
 /**
  * Manage application
  */
 public class Manager
 {
-  private static final Logger sLogger = Logger.getLogger(
-    Manager.class.getName() );
-
+  /**
+   * Task 1
+   */
   public void runCacheTask()
   {
     List<Thread> threads = new ArrayList<Thread>();
-    threads.add( new Thread( new ChannelWriterExecutor() ) );
-    threads.add( new Thread( new ListingWriterExecutor() ) );
-    threads.add( new Thread( new RatioWriterExecutor() ) );
-    threads.add( new Thread( new ChannelReaderExecutor() ) );
-    threads.add( new Thread( new ListingReaderExecutor() ) );
-    threads.add( new Thread( new RatioReaderExecutor() ) );
+
+    threads.add( new Thread( new ChannelWriterExecutor(),   "WriteThread_1_Channel" ) );
+    threads.add( new Thread( new ListingWriterExecutor(),   "WriteThread_2_Listing" ) );
+    threads.add( new Thread( new RatioWriterExecutor(),     "WriteThread_3_Ratio" ) );
+    threads.add( new Thread( new ChannelReaderExecutor(),   "ReadThread_1_Channel" ) );
+    threads.add( new Thread( new ListingReaderExecutor(),   "ReadThread_2_Listing" ) );
+    threads.add( new Thread( new RatioReaderExecutor(),     "ReadThread_3_Ratio" ) );
 
     for( Thread thread : threads ) {
       thread.start();
     }
 
-    try {
-      Thread.sleep( 120 * 1000 );
-    } catch( InterruptedException e ) {
-      sLogger.error( "InterruptedException ", e );
-      //e.printStackTrace();
-    }
+    sleep(5, MINUTES);
   }
 
+  /**
+   * Task 2
+   */
   public void runDeadlockTask()
   {
     final Object resource1 = "resource1";
     final Object resource2 = "resource2";
     final Object resource3 = "resource3";
 
-    Thread t1 = new Thread()
-    {
-      @Override
-      public void run()
-      {
-        synchronized( resource1 ) {
-          System.out.println( "Do in sync1" );
-          try {
-            Thread.sleep( 50 );
-            synchronized( resource2 ) {
-              System.out.println( "Do in sync2" );
-            }
-          } catch( InterruptedException e ) {
-            sLogger.error( "InterruptedException ", e );
-          }
-        }
-        super.run();
-      }
-    };
-
-    Thread t2 = new Thread()
-    {
-      @Override
-      public void run()
-      {
-        synchronized( resource2 ) {
-          System.out.println( "Do in sync2" );
-          try {
-            Thread.sleep( 50 );
-            synchronized( resource3 ) {
-              System.out.println( "Do in sync3" );
-            }
-          } catch( InterruptedException e ) {
-            sLogger.error( "InterruptedException ", e );
-          }
-        }
-        super.run();
-      }
-    };
-
-    Thread t3 = new Thread()
-    {
-      @Override
-      public void run()
-      {
-        synchronized( resource3 ) {
-          System.out.println( "Do in sync3" );
-          try {
-            Thread.sleep( 50 );
-            synchronized( resource1 ) {
-              System.out.println( "Do in sync1" );
-            }
-          } catch( InterruptedException e ) {
-            sLogger.error( "InterruptedException ", e );
-          }
-        }
-        super.run();
-      }
-    };
-
-    t1.start();
-    t2.start();
-    t3.start();
+    new DeadLockThread("DeadLockedThread_1")
+            .with(resource1, resource2)
+            .start();
+    new DeadLockThread("DeadLockedThread_2")
+            .with(resource2, resource3)
+            .start();
+    new DeadLockThread("DeadLockedThread_3")
+            .with(resource3, resource1)
+            .start();
   }
 
+  /**
+   * Task 3
+   */
   public void runLiveLockTask()
   {
-    final MyReader myReader = new MyReader( "Reader1" );
-    final MyReader myReader1 = new MyReader( "Reader2" );
-    final Instruction instruction = new Instruction( myReader );
+    final MyReader reader1 = new MyReader( "Reader1" );
+    final MyReader reader2 = new MyReader( "Reader2" );
+    final Instruction instruction = new Instruction( reader1 );
 
-    new Thread( new Runnable()
-    {
-      public void run()
-      {
-        myReader.doPrint( instruction, myReader );
-      }
-    } ).start();
-
-    new Thread( new Runnable()
-    {
-      public void run()
-      {
-        myReader1.doPrint( instruction, myReader1 );
-      }
-    } ).start();
-
+    new LifeLockThread("LifeLockedThread_1")
+            .withReaders(reader1, reader2)
+            .withInstruction(instruction)
+            .start();
+    new LifeLockThread("LifeLockedThread_2")
+            .withReaders(reader2, reader1)
+            .withInstruction(instruction)
+            .start();
   }
-
 }

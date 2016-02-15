@@ -1,6 +1,6 @@
-package com.romario.mentoring.executor.reader;
+package com.romario.mentoring.runnable.cache.reader;
 
-import com.romario.mentoring.model.Channel;
+import com.romario.mentoring.model.cache.Channel;
 import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
@@ -28,17 +28,11 @@ public class ChannelReaderExecutor
       for( Channel channel : channels ) {
         sLogger.info( "RThread1. ChannelID: " + channel.getId() + " ChannelTitle: " + channel.getTitle() + ",  Description: " +
           channel.getDesc() );
-        /*System.out.println(
-          "RThread1. ChannelID: " + channel.getId() + " ChannelTitle: " + channel.getTitle() + ",  Description: " +
-            channel.getDesc() );*/
       }
 
       try {
         Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
-      } catch( InterruptedException e ) {
-        sLogger.error( "InterruptedException ", e );
-        //e.printStackTrace();
-      }
-    } while ( cache.isReadFlag() );
+      } catch( InterruptedException ignore ) {}
+    } while ( true );
   }
 }

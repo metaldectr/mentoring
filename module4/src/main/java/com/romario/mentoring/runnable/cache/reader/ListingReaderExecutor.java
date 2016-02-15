@@ -1,9 +1,8 @@
-package com.romario.mentoring.executor.reader;
+package com.romario.mentoring.runnable.cache.reader;
 
-import com.romario.mentoring.model.Channel;
-import com.romario.mentoring.model.Listing;
+import com.romario.mentoring.model.cache.Channel;
+import com.romario.mentoring.model.cache.Listing;
 import com.romario.mentoring.model.cache.Cache;
-import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ListingReaderExecutor class
@@ -40,20 +40,14 @@ public class ListingReaderExecutor
             Long key = iterator.next();
             sLogger.info( "RThread2. ChannelTitle: " + channelsMap.get( key ).getTitle() +
               " ChannelDescription: " + channelsMap.get( key ).getDesc() );
-            /*System.out.println(
-              "RThread2. ChannelTitle: " + channelsMap.get( key ).getTitle() +
-                " ChannelDescription: " + channelsMap.get( key ).getDesc() );*/
           }
         }
       }
 
       try {
-        Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
-      } catch( InterruptedException e ) {
-        sLogger.error( "InterruptedException ", e );
-        //e.printStackTrace();
-      }
-    } while ( cache.isReadFlag() );
+        Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+      } catch( InterruptedException ignore) {}
+    } while ( true );
   }
 
   private Map<Long, Channel> calculateAverageRatio( List<Channel> channels )

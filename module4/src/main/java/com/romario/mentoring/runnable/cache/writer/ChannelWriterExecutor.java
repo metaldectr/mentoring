@@ -1,13 +1,13 @@
-package com.romario.mentoring.executor.writer;
+package com.romario.mentoring.runnable.cache.writer;
 
-import com.romario.mentoring.model.Channel;
+import com.romario.mentoring.model.cache.Channel;
 import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ChannelWriterExecutor class
@@ -29,30 +29,17 @@ public class ChannelWriterExecutor
     do {
       sLogger.info(
         Thread.currentThread().getId() + " run" );
-/*      try {
-        if (cache.getLock().tryLock()) {*/
           List<Channel> tmpChannels = new ArrayList<Channel>();
           int count = RandomUtil.randInt( MIN, MAX );
           for( int i = 0; i < count; i++ ) {
-            /*tmpChannels.add(
-              new Channel( RandomUtil.nextLong(), "channel:" + RandomUtil.nextInt(),
-                "description:" + RandomUtil.nextInt(), null ) );*/
             tmpChannels.add( new Channel( RandomUtil.randInt( 1, 500 ),
               "channel:" + RandomUtil.nextInt(),
               "description:" + RandomUtil.nextInt(), null ) );
           }
           cache.setChannelList( tmpChannels );
-/*        }
-      } finally {
-        cache.getLock().unlock();
-      }*/
-
       try {
-        Thread.sleep( 4 * 1000 );
-      } catch( InterruptedException e ) {
-        sLogger.error( "InterruptedException ", e );
-        //e.printStackTrace();
-      }
-    } while ( cache.isWriteFlag() );
+        Thread.sleep( TimeUnit.SECONDS.toMillis(10) );
+      } catch( InterruptedException ignore ) {}
+    } while ( true );
   }
 }

@@ -1,14 +1,14 @@
-package com.romario.mentoring.model;
+package com.romario.mentoring.model.cache;
 
 /**
  * Ration model class
  */
 public class Ratio
 {
-  private long listingId;
-  private long ratio;
+  private final long listingId;
+  private final long ratio;
 
-  public Ratio( long listingId, long ratio )
+  public Ratio( final long listingId, final long ratio )
   {
     this.listingId = listingId;
     this.ratio = ratio;

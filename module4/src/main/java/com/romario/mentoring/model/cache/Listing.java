@@ -1,4 +1,4 @@
-package com.romario.mentoring.model;
+package com.romario.mentoring.model.cache;
 
 /**
  * Listing model class
@@ -6,13 +6,12 @@ package com.romario.mentoring.model;
 public class Listing
 {
 
-  private long id;
-  private long channelId;
-  private String title;
-  private Ratio ratio;
+  private final long id;
+  private final long channelId;
+  private final String title;
+  private final Ratio ratio;
 
-  public Listing( long id, long channelId, String title,
-    Ratio ratio )
+  public Listing( final long id, final long channelId, final String title, final Ratio ratio )
   {
     this.id = id;
     this.channelId = channelId;
