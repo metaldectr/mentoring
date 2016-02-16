@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractCacheExecutor extends Thread {
-    protected final Cache cache = Cache.getINSTANCE();
+    protected final Cache cache = Cache.getInstance();
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     public AbstractCacheExecutor(String name) {

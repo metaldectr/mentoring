@@ -9,11 +9,11 @@ import static com.romario.mentoring.util.ThreadUtil.SECONDS;
 import static com.romario.mentoring.util.ThreadUtil.sleepFor;
 
 /**
- * ChannelReaderExecutor class
+ * ChannelReader class
  */
-public class ChannelReaderExecutor extends AbstractCacheExecutor {
+public class ChannelReader extends AbstractCacheExecutor {
 
-    public ChannelReaderExecutor(String name) {
+    public ChannelReader(String name) {
         super(name);
     }
 
@@ -21,10 +21,9 @@ public class ChannelReaderExecutor extends AbstractCacheExecutor {
     protected void doThis() {
         List<Channel> channels = cache.getChannels();
 
-        LOG.info("Read {} channels. Cache size is {}", channels.size(), cache.getCacheSize());
-
+        LOG.info("{ read: {}, total: {} }", channels.size(), cache.getCacheSize());
         for (Channel channel : channels) {
-            LOG.debug("- {}", channel);
+            LOG.debug("{}", channel);
         }
 
         sleepFor(5, SECONDS);

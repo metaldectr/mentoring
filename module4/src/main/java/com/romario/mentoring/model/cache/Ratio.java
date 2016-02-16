@@ -44,7 +44,4 @@ public class Ratio {
                 '}';
     }
 
-    public long getListingId() {
-        return 0;//TODO: Remove later
-    }
 }

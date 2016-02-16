@@ -2,12 +2,12 @@ package com.romario.mentoring.manager;
 
 import com.romario.mentoring.model.lifelock.Instruction;
 import com.romario.mentoring.model.lifelock.MyReader;
-import com.romario.mentoring.runnable.cache.reader.ChannelReaderExecutor;
-import com.romario.mentoring.runnable.cache.reader.ListingReaderExecutor;
-import com.romario.mentoring.runnable.cache.reader.RatioReaderExecutor;
-import com.romario.mentoring.runnable.cache.writer.ChannelWriterExecutor;
-import com.romario.mentoring.runnable.cache.writer.ListingWriterExecutor;
-import com.romario.mentoring.runnable.cache.writer.RatioWriterExecutor;
+import com.romario.mentoring.runnable.cache.reader.ChannelReader;
+import com.romario.mentoring.runnable.cache.reader.ListingReader;
+import com.romario.mentoring.runnable.cache.reader.RatioReader;
+import com.romario.mentoring.runnable.cache.writer.ChannelWriter;
+import com.romario.mentoring.runnable.cache.writer.ListingWriter;
+import com.romario.mentoring.runnable.cache.writer.RatioWriter;
 import com.romario.mentoring.runnable.deadlock.DeadLockThread;
 import com.romario.mentoring.runnable.lifelock.LifeLockThread;
 
@@ -25,12 +25,12 @@ public class Manager
    */
   public void runCacheTask()
   {
-    new ChannelWriterExecutor(  "W_Thread_1_Channel" ).start();
-//    new ListingWriterExecutor(  "W_Thread_2_Listing" ).start();
-//    new RatioWriterExecutor(    "W_Thread_3_Ratio"   ).start();
-    new ChannelReaderExecutor(  "R_Thread_1_Channel" ).start();
-//    new ListingReaderExecutor(  "R_Thread_2_Listing" ).start();
-//    new RatioReaderExecutor(    "R_Thread_3_Ratio"   ).start();
+    new ChannelWriter(  "W_Thread_1_Channel" ).start();
+    new ListingWriter(  "W_Thread_2_Listing" ).start();
+    new RatioWriter(    "W_Thread_3_Ratio"   ).start();
+    new ChannelReader(  "R_Thread_1_Channel" ).start();
+    new ListingReader(  "R_Thread_2_Listing" ).start();
+    new RatioReader(    "R_Thread_3_Ratio"   ).start();
 
     sleepFor(5, MINUTES);
   }

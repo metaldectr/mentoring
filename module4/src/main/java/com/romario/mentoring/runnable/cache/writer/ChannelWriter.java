@@ -12,22 +12,23 @@ import static com.romario.mentoring.util.ThreadUtil.SECONDS;
 import static com.romario.mentoring.util.ThreadUtil.sleepFor;
 
 /**
- * ChannelWriterExecutor class
+ * ChannelWriter class
  */
-public class ChannelWriterExecutor extends AbstractCacheExecutor {
-    public static int id = 0;
+public class ChannelWriter extends AbstractCacheExecutor {
+    public static int id = 1;
     public static final int MIN = 1;
     public static final int MAX = 5;
 
-    public ChannelWriterExecutor(String name) {
+    public ChannelWriter(String name) {
         super(name);
     }
 
     @Override
     protected void doThis() {
         int channelsNumber = randInt(MIN, MAX);
-        cache.addChannels(createChannels(channelsNumber));
-        LOG.info("Generate {} channels. Cache size is {}", channelsNumber, cache.getCacheSize());
+        List<Channel> channels = createChannels(channelsNumber);
+        cache.addChannels(channels);
+        LOG.info("{ wrote: {}, total: {} }", channels.size(), cache.getCacheSize());
         sleepFor(5, SECONDS);
     }
 
@@ -40,7 +41,7 @@ public class ChannelWriterExecutor extends AbstractCacheExecutor {
                     randString("channel_title_"),
                     randString("channel_description_")
             );
-            LOG.debug("+ {}", channel);
+            LOG.debug("{}", channel);
             generatedChannels.add(channel);
         }
         return generatedChannels;

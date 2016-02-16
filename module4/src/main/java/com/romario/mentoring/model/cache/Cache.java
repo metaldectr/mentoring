@@ -13,7 +13,7 @@ public class Cache {
         storage = Collections.synchronizedMap(new HashMap<Long, Channel>());
     }
 
-    public static Cache getINSTANCE() {
+    public static Cache getInstance() {
         return INSTANCE;
     }
 
@@ -21,7 +21,7 @@ public class Cache {
         return new ArrayList<Channel>(storage.values());
     }
 
-    public void addChannel(final Channel channel) {
+    public void putChannel(final Channel channel) {
         this.storage.put(channel.getId(), channel);
     }
     public void addChannels(final List<Channel> channels) {
