@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 
 /**
  * ChannelWriterExecutor class
@@ -19,8 +18,8 @@ public class ChannelWriterExecutor
     ChannelWriterExecutor.class.getName() );
   private static final Cache cache = Cache.getInstance();
 
-  public static final int MIN = 1;
-  public static final int MAX = 2;
+  public static final int MIN = 100;
+  public static final int MAX = 150;
 
   public void run()
   {
@@ -29,26 +28,20 @@ public class ChannelWriterExecutor
     do {
       sLogger.info(
         Thread.currentThread().getId() + " run" );
-/*      try {
-        if (cache.getLock().tryLock()) {*/
-          List<Channel> tmpChannels = new ArrayList<Channel>();
-          int count = RandomUtil.randInt( MIN, MAX );
-          for( int i = 0; i < count; i++ ) {
-            /*tmpChannels.add(
-              new Channel( RandomUtil.nextLong(), "channel:" + RandomUtil.nextInt(),
-                "description:" + RandomUtil.nextInt(), null ) );*/
-            tmpChannels.add( new Channel( RandomUtil.randInt( 1, 500 ),
-              "channel:" + RandomUtil.nextInt(),
-              "description:" + RandomUtil.nextInt(), null ) );
-          }
-          cache.setChannelList( tmpChannels );
-/*        }
-      } finally {
-        cache.getLock().unlock();
-      }*/
+
+      List<Channel> tmpChannels = new ArrayList<Channel>();
+      int count = RandomUtil.randInt( MIN, MAX );
+      for( int i = 0; i < count; i++ ) {
+        tmpChannels.add( new Channel(
+          RandomUtil.randInt( 1, 500 ),
+          "channel:" + RandomUtil.nextInt(),
+          "description:" + RandomUtil.nextInt() ) );
+      }
+      cache.setChannelList( tmpChannels );
+
 
       try {
-        Thread.sleep( 4 * 1000 );
+        Thread.sleep( 20 * 1000 );
       } catch( InterruptedException e ) {
         sLogger.error( "InterruptedException ", e );
         //e.printStackTrace();

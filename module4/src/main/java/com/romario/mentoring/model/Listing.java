@@ -3,13 +3,13 @@ package com.romario.mentoring.model;
 /**
  * Listing model class
  */
-public class Listing
+public final class Listing
 {
 
-  private long id;
-  private long channelId;
-  private String title;
-  private Ratio ratio;
+  private final long id;
+  private final long channelId;
+  private final String title;
+  private final Ratio ratio;
 
   public Listing( long id, long channelId, String title,
     Ratio ratio )

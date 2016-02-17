@@ -38,7 +38,9 @@ public class RatioReaderExecutor
           for( Channel channel : channels ) {
             if ( channel.getListing() != null ) {
               for( Listing listing : new ArrayList<Listing>( channel.getListing() ) ) {
-                ratioList.add( listing.getRatio() );
+                if (listing != null) {
+                  ratioList.add( listing.getRatio() );
+                }
               }
             }
           }
@@ -79,8 +81,8 @@ public class RatioReaderExecutor
   {
     for( Channel channel : channelList ) {
       if ( channel.getListing() != null && !channel.getListing().isEmpty() ) {
-        for( Listing listing : channel.getListing() ) {
-          if ( listing.getId() == listingId ) {
+        for( Listing listing : new ArrayList<Listing>( channel.getListing() ) ) {
+          if ( listing != null && listing.getId() == listingId ) {
             return listing;
           }
         }
@@ -93,8 +95,8 @@ public class RatioReaderExecutor
   {
     for( Channel channel : channelList ) {
       if ( channel.getListing() != null && !channel.getListing().isEmpty() ) {
-        for( Listing listing : channel.getListing() ) {
-          if ( listing.getId() == listingId ) {
+        for( Listing listing : new ArrayList<Listing>( channel.getListing() ) ) {
+          if ( listing != null && listing.getId() == listingId ) {
             return channel;
           }
         }

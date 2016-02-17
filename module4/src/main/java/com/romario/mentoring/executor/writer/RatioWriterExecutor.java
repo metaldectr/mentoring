@@ -7,9 +7,7 @@ import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 
 /**
  * RatioWriterExecutor class
@@ -29,36 +27,32 @@ public class RatioWriterExecutor
       sLogger.info(
         Thread.currentThread().getId() + " run" );
       List<Channel> channels = cache.getChannelList();
-/*      try {
-        if (cache.getLock().tryLock()) {*/
-          for( Channel channel : channels ) {
-            List<Listing> listings = channel.getListing();
-            if ( listings != null && !listings.isEmpty() ) {
-              for( int i = 0; i < listings.size(); i++ ) {
-                Listing listing = listings.get( i );
-                if (listing != null) {
-                  if ( listing.getRatio() != null ) {
-                    Ratio ratio = listing.getRatio();
-                    listings.add(
-                      i, new Listing( listing.getId(), listing.getChannelId(),
-                        listings.get( i ).getTitle(),
-                        new Ratio( ratio.getListingId(), ratio.getRatio() ) ) );
-                  } else {
-                    listings.add(
-                      i, new Listing( listing.getId(), listing.getChannelId(),
-                        listing.getTitle(),
-                        new Ratio(
-                          RandomUtil.nextLong(), RandomUtil.nextLong() ) ) );
-                  }
-                }
+
+      for( Channel channel : channels ) {
+        List<Listing> listings = channel.getListing();
+        if ( listings != null && !listings.isEmpty() ) {
+          for( int i = 0; i < listings.size(); i++ ) {
+            Listing listing = listings.get( i );
+            if ( listing != null ) {
+              if ( listing.getRatio() != null ) {
+                Ratio ratio = listing.getRatio();
+                listings.add(
+                  i, new Listing( listing.getId(), listing.getChannelId(),
+                    listings.get( i ).getTitle(),
+                    new Ratio( ratio.getListingId(), ratio.getRatio() ) ) );
+              } else {
+                listings.add(
+                  i, new Listing( listing.getId(), listing.getChannelId(),
+                    listing.getTitle(),
+                    new Ratio(
+                      RandomUtil.nextLong(), RandomUtil.nextLong() ) ) );
               }
             }
-            cache.setChannelList( channels );
           }
-/*        }
-      } finally {
-        cache.getLock().unlock();
-      }*/
+        }
+        cache.setChannelList( channels );
+      }
+
       try {
         Thread.sleep( RandomUtil.randInt( 1, 2 ) * 1000 );
       } catch( InterruptedException e ) {

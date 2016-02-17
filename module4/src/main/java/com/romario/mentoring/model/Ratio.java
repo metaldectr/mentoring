@@ -3,10 +3,10 @@ package com.romario.mentoring.model;
 /**
  * Ration model class
  */
-public class Ratio
+public final class Ratio
 {
-  private long listingId;
-  private long ratio;
+  private final long listingId;
+  private final long ratio;
 
   public Ratio( long listingId, long ratio )
   {
