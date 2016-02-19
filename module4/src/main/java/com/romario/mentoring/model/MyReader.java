@@ -1,22 +1,25 @@
 package com.romario.mentoring.model;
 
+import org.apache.log4j.Logger;
+
 /**
  * MyReader model class
  */
 public class MyReader
 {
-  private boolean flag = true;
-  private String name;
+  private static final Logger LOG = Logger.getLogger(MyReader.class);
+  private volatile boolean flag = true;
+  private volatile String name;
 
   public MyReader( String name )
   {
     this.name = name;
   }
 
-  public void doPrint( Instruction instruction, MyReader reader )
+  public void doPrint( Instruction instruction, MyReader that )
   {
 
-    while ( isFlag() ) {
+    while ( this.flag ) {
       if ( instruction.getReader() != this ) {
         try {
           Thread.sleep( 1 );
@@ -26,38 +29,16 @@ public class MyReader
         continue;
       }
 
-      if ( reader.isFlag() ) {
-        System.out.printf(
-          "Do print : ", getName() );
-        instruction.setReader( reader );
+      if ( that.flag ) {
+        LOG.info(String.format("Give priority to : %s%n", this.name));
+        instruction.setReader( that );
         continue;
       }
 
       instruction.use();
-      setFlag( false );
-      System.out.printf(
-        "Do Print : ", getName() );
-      instruction.setReader( reader );
+      this.flag = false;
+      LOG.info(String.format("Instruction was used. Give priority to : %s%n", name));
+      instruction.setReader( that );
     }
-  }
-
-  public boolean isFlag()
-  {
-    return flag;
-  }
-
-  public void setFlag( boolean flag )
-  {
-    this.flag = flag;
-  }
-
-  public String getName()
-  {
-    return name;
-  }
-
-  public void setName( String name )
-  {
-    this.name = name;
   }
 }

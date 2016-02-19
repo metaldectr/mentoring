@@ -12,12 +12,12 @@ public class Instruction
     this.reader = reader;
   }
 
-  public MyReader getReader()
+  public synchronized MyReader getReader()
   {
     return reader;
   }
 
-  public void setReader( MyReader reader )
+  public synchronized void setReader( MyReader reader )
   {
     this.reader = reader;
   }

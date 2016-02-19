@@ -9,36 +9,27 @@ import java.util.List;
 public final class Channel
 {
   private final long id;
+  private final long uid = System.nanoTime();
   private final String title;
   private final String desc;
-  private final List<Listing> listing = new ArrayList<Listing>(  );
+  private final List<Listing> listing;
 
-  public Channel( long id, String title, String desc )
+  public Channel( long id, String title, String desc,
+    List<Listing> listing )
   {
     this.id = id;
     this.title = title;
     this.desc = desc;
+    if (listing == null) {
+      this.listing = new ArrayList<Listing>(  );
+    } else {
+      this.listing = listing;
+    }
   }
 
   public synchronized List<Listing> getListing()
   {
     return listing;
-  }
-
-  public synchronized void setListing( List<Listing> listing )
-  {
-    try {
-      if (listing != null && !listing.isEmpty()) {
-        for( Listing listing1 : new ArrayList<Listing>( listing ) ) {
-          if (listing1 != null) {
-            getListing().add( listing1 );
-          }
-        }
-      }
-
-    } catch( Exception e ) {
-      e.printStackTrace();
-    }
   }
 
   public long getId()
@@ -54,6 +45,11 @@ public final class Channel
   public String getDesc()
   {
     return desc;
+  }
+
+  public long getUid()
+  {
+    return uid;
   }
 
   @Override

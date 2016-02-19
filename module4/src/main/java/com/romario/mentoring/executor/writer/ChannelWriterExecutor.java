@@ -35,7 +35,7 @@ public class ChannelWriterExecutor
         tmpChannels.add( new Channel(
           RandomUtil.randInt( 1, 500 ),
           "channel:" + RandomUtil.nextInt(),
-          "description:" + RandomUtil.nextInt() ) );
+          "description:" + RandomUtil.nextInt(), null ) );
       }
       cache.setChannelList( tmpChannels );
 
@@ -44,7 +44,6 @@ public class ChannelWriterExecutor
         Thread.sleep( 20 * 1000 );
       } catch( InterruptedException e ) {
         sLogger.error( "InterruptedException ", e );
-        //e.printStackTrace();
       }
     } while ( cache.isWriteFlag() );
   }

@@ -7,6 +7,7 @@ import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,13 +27,13 @@ public class RatioWriterExecutor
     do {
       sLogger.info(
         Thread.currentThread().getId() + " run" );
-      List<Channel> channels = cache.getChannelList();
+      List<Channel> channels = new ArrayList<Channel>( cache.getChannelList() );
 
       for( Channel channel : channels ) {
         List<Listing> listings = channel.getListing();
         if ( listings != null && !listings.isEmpty() ) {
           for( int i = 0; i < listings.size(); i++ ) {
-            Listing listing = listings.get( i );
+            final Listing listing = listings.get( i );
             if ( listing != null ) {
               if ( listing.getRatio() != null ) {
                 Ratio ratio = listing.getRatio();
@@ -50,14 +51,13 @@ public class RatioWriterExecutor
             }
           }
         }
-        cache.setChannelList( channels );
+        cache.addChannel( new Channel( channel.getId(), channel.getTitle(), channel.getDesc(), listings ) );
       }
 
       try {
         Thread.sleep( RandomUtil.randInt( 1, 2 ) * 1000 );
       } catch( InterruptedException e ) {
         sLogger.error( "InterruptedException for thread sleep", e );
-        //e.printStackTrace();
       }
     } while ( cache.isWriteFlag() );
 

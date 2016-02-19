@@ -26,11 +26,7 @@ public class RatioReaderExecutor
   public void run()
   {
     sLogger.info( "RationReaderExecutor start: " + Thread.currentThread().getId() );
-    final Lock lock = cache.getLock();
     do {
-/*      try {
-         lock.lock();*/
-
           sLogger.info( "RationReaderExecutor run" );
           List<Channel> channels = new ArrayList<Channel>( cache.getChannelList() );
           List<Ratio> ratioList = new ArrayList<Ratio>();
@@ -53,25 +49,16 @@ public class RatioReaderExecutor
               Channel channel = findChannelById( channels, listingId );
               Listing listing = findListingById( channels, listingId );
               if ( channel != null && listing.getRatio() != null ) {
-                sLogger.info( "RThread3. Channel: " + channel.getTitle() + ". Listing: " +
+                sLogger.info( "Channel: " + channel.getTitle() + ". Listing: " +
                   listing.getTitle() + ". Ratio: " +
                   listing.getRatio().getRatio() );
-                /*System.out.println(
-                  "RThread3. Channel: " + channel.getTitle() + ". Listing: " +
-                    listing.getTitle() + ". Ratio: " +
-                    listing.getRatio().getRatio() );*/
               }
             }
           }
-
-/*      } finally {
-        lock.unlock();
-      }*/
       try {
         Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
       } catch( InterruptedException e ) {
         sLogger.error( "InterruptedException ", e );
-        //e.printStackTrace();
       }
     } while ( cache.isReadFlag() );
 

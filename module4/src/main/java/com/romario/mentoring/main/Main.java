@@ -16,8 +16,8 @@ public class Main
     Manager manager = new Manager();
     manager.runCacheTask();
 
-    //manager.runDeadlockTask();
+    manager.runDeadlockTask();
 
-    //manager.runLiveLockTask();
+    manager.runLiveLockTask();
   }
 }

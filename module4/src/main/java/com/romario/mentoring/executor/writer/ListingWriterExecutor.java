@@ -41,15 +41,15 @@ public class ListingWriterExecutor
               "listingTitle:" + RandomUtil.nextInt(), null ) );
         }
 
-        channel.setListing( tmpListings );
+        cache.addChannel(
+          new Channel( channel.getId(), channel.getTitle(), channel.getDesc(),
+            tmpListings ) );
       }
-      cache.setChannelList( channels );
 
       try {
         Thread.sleep( 5 * 1000 );
       } catch( InterruptedException e ) {
         sLogger.error( "InterruptedException for thread sleep", e );
-        //e.printStackTrace();
       }
     } while ( cache.isWriteFlag() );
   }

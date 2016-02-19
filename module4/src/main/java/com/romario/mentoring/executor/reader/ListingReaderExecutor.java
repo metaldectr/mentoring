@@ -38,11 +38,8 @@ public class ListingReaderExecutor
         for( int i = 0; i < 3; i++ ) {
           if ( iterator.hasNext() ) {
             Long key = iterator.next();
-            sLogger.info( "RThread2. ChannelTitle: " + channelsMap.get( key ).getTitle() +
+            sLogger.info( "ChannelTitle: " + channelsMap.get( key ).getTitle() +
               " ChannelDescription: " + channelsMap.get( key ).getDesc() );
-            /*System.out.println(
-              "RThread2. ChannelTitle: " + channelsMap.get( key ).getTitle() +
-                " ChannelDescription: " + channelsMap.get( key ).getDesc() );*/
           }
         }
       }
@@ -51,7 +48,6 @@ public class ListingReaderExecutor
         Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
       } catch( InterruptedException e ) {
         sLogger.error( "InterruptedException ", e );
-        //e.printStackTrace();
       }
     } while ( cache.isReadFlag() );
   }

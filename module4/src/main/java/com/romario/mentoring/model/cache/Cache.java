@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Cache model class
@@ -16,10 +14,8 @@ public class Cache
 {
   private static volatile Cache instance;
 
-  private volatile List<Channel> channelList;
-  private volatile Map<Long, Channel> maps;
-
-  private volatile Lock lock = new ReentrantLock(  );
+  private List<Channel> channelList;
+  private Map<Long, Channel> maps;
 
   private volatile boolean readFlag;
   private volatile boolean writeFlag;
@@ -29,7 +25,7 @@ public class Cache
     channelList = new ArrayList<Channel>();
     readFlag = true;
     writeFlag = true;
-    maps = new HashMap<Long, Channel>(  );
+    maps = new HashMap<Long, Channel>();
   }
 
   public static Cache getInstance()
@@ -46,7 +42,8 @@ public class Cache
     return localInstance;
   }
 
-  public synchronized List<Channel> getFromCache() {
+  public synchronized List<Channel> getFromCache()
+  {
     return channelList;
   }
 
@@ -72,24 +69,38 @@ public class Cache
 
   public synchronized List<Channel> getChannelList()
   {
-    return new ArrayList<Channel>( channelList );
+    return channelList;
+  }
+
+  public synchronized void addChannel( final Channel channel )
+  {
+    if ( this.maps.containsKey( channel.getId() ) ) {
+      if ( channel.getUid() >= this.maps.get( channel.getId() ).getUid() ) {
+        getChannelList().add( channel );
+        this.maps.remove( this.maps.get( channel.getId() ) );
+        this.maps.put( channel.getId(), channel );
+      }
+    } else {
+      getChannelList().add( channel );
+      this.maps.put( channel.getId(), channel );
+    }
   }
 
   public synchronized void setChannelList(
     List<Channel> channelList )
   {
-    for (Channel channel : this.channelList) {
+    for( Channel channel : this.channelList ) {
       this.maps.put( channel.getId(), channel );
     }
 
     /*this.channelList.addAll( channelList );*/
-    final List<Channel> channels = new ArrayList<Channel>(  );
-    for (Channel channel : channelList) {
-      if (!this.channelList.contains( channel )) {
+    final List<Channel> channels = new ArrayList<Channel>();
+    for( Channel channel : channelList ) {
+      if ( !this.channelList.contains( channel ) ) {
         channels.add( channel );
       } else {
-        for (int i = 0; i < this.channelList.size(); i++) {
-          if (this.channelList.get( i ).getId() == channel.getId()) {
+        for( int i = 0; i < this.channelList.size(); i++ ) {
+          if ( this.channelList.get( i ).getId() == channel.getId() ) {
             channels.add( channel );
             this.channelList.remove( i );
           }
@@ -98,16 +109,5 @@ public class Cache
     }
     this.channelList.addAll( channels );
 
-
-  }
-
-  public Lock getLock()
-  {
-    return lock;
-  }
-
-  public void setLock( Lock lock )
-  {
-    this.lock = lock;
   }
 }

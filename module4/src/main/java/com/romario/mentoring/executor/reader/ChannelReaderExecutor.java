@@ -5,6 +5,7 @@ import com.romario.mentoring.model.cache.Cache;
 import com.romario.mentoring.util.RandomUtil;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,21 +24,17 @@ public class ChannelReaderExecutor
 
     do {
       sLogger.info( "ChannelReaderExecutor run" );
-      List<Channel> channels = cache.getChannelList();
+      List<Channel> channels = new ArrayList<Channel>( cache.getChannelList() );
 
       for( Channel channel : channels ) {
-        sLogger.info( "RThread1. ChannelID: " + channel.getId() + " ChannelTitle: " + channel.getTitle() + ",  Description: " +
+        sLogger.info( "ChannelID: " + channel.getId() + " ChannelTitle: " + channel.getTitle() + ",  Description: " +
           channel.getDesc() );
-        /*System.out.println(
-          "RThread1. ChannelID: " + channel.getId() + " ChannelTitle: " + channel.getTitle() + ",  Description: " +
-            channel.getDesc() );*/
       }
 
       try {
         Thread.sleep( RandomUtil.randInt( 2, 4 ) * 1000 );
       } catch( InterruptedException e ) {
         sLogger.error( "InterruptedException ", e );
-        //e.printStackTrace();
       }
     } while ( cache.isReadFlag() );
   }

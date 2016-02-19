@@ -24,12 +24,13 @@ public class Manager
   public void runCacheTask()
   {
     List<Thread> threads = new ArrayList<Thread>();
-    threads.add( new Thread( new ChannelWriterExecutor() ) );
-    threads.add( new Thread( new ListingWriterExecutor() ) );
-    threads.add( new Thread( new RatioWriterExecutor() ) );
-    threads.add( new Thread( new ChannelReaderExecutor() ) );
-    threads.add( new Thread( new ListingReaderExecutor() ) );
-    threads.add( new Thread( new RatioReaderExecutor() ) );
+    threads.add( thread("w-thread-1", new ChannelWriterExecutor()) );
+    threads.add( thread("w-thread-2", new ListingWriterExecutor()) );
+    threads.add( thread("w-thread-3", new RatioWriterExecutor()) );
+
+    threads.add( thread("r-thread-1", new ChannelReaderExecutor() ) );
+    threads.add( thread("r-thread-2", new ListingReaderExecutor() ) );
+    threads.add( thread("r-thread-3", new RatioReaderExecutor() ) );
 
     for( Thread thread : threads ) {
       thread.start();
@@ -39,8 +40,13 @@ public class Manager
       Thread.sleep( 120 * 1000 );
     } catch( InterruptedException e ) {
       sLogger.error( "InterruptedException ", e );
-      //e.printStackTrace();
     }
+  }
+
+  private static Thread thread(String name, Runnable r) {
+    Thread t = new Thread(r);
+    t.setName(name);
+    return t;
   }
 
   public void runDeadlockTask()
@@ -116,26 +122,29 @@ public class Manager
 
   public void runLiveLockTask()
   {
-    final MyReader myReader = new MyReader( "Reader1" );
-    final MyReader myReader1 = new MyReader( "Reader2" );
-    final Instruction instruction = new Instruction( myReader );
+    final MyReader myReader1 = new MyReader( "Reader1" );
+    final MyReader myReader2 = new MyReader( "Reader2" );
+    final Instruction instruction = new Instruction( myReader2 );
 
-    new Thread( new Runnable()
+    Thread t1 = new Thread( new Runnable()
     {
       public void run()
       {
-        myReader.doPrint( instruction, myReader );
+        myReader2.doPrint( instruction, myReader1 );
       }
-    } ).start();
+    } );
+    t1.setName("LiveLocked_1");
 
-    new Thread( new Runnable()
+    Thread t2 = new Thread( new Runnable()
     {
       public void run()
       {
-        myReader1.doPrint( instruction, myReader1 );
+        myReader1.doPrint( instruction, myReader2 );
       }
-    } ).start();
-
+    } );
+    t2.setName("LiveLocked_2");
+    t1.start();
+    t2.start();
   }
 
 }
