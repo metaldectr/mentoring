@@ -1,0 +1,44 @@
+group 'com.romario.mentoring'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'rest-service'
+    version =  project.version
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile "org.springframework:spring-core:$springVersion"
+    compile "org.springframework:spring-beans:$springVersion"
+    compile "org.springframework:spring-beans:$springVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework.boot:spring-boot:+"
+    compile "org.springframework.boot:spring-boot-starter-web:+"
+
+    compile project(':model')
+    compile project(':dao')
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+buildscript {
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:+"
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
+    }
+}
+
+springBoot {
+    mainClass = "com.romario.mentoring.service.boot.App"
+}
+
+
