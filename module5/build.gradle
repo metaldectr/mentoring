@@ -1,22 +1,9 @@
-group 'com.romario.mentoring'
-version '1.0-SNAPSHOT'
+apply from: 'libraries.gradle'
 
-ext {
-    springVersion = '4.2.5.RELEASE'
-    jacksonVersion = '+'
-}
+allprojects {
+    group = 'com.romario.mentoring'
+    version = '1.0.0-SNAPSHOT'
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven { url "http://repo.spring.io/release" }
-    maven { url "http://repo.spring.io/milestone" }
-    maven { url "http://repo.spring.io/snapshot" }
-}
-
-subprojects {
-    apply plugin:'java'
-    apply plugin: 'idea'
 
     repositories {
         mavenLocal()
@@ -25,4 +12,11 @@ subprojects {
         maven { url "http://repo.spring.io/milestone" }
         maven { url "http://repo.spring.io/snapshot" }
     }
+}
+
+subprojects {
+    apply plugin:'java'
+    apply plugin: 'idea'
+
+    sourceCompatibility = 1.8
 }
