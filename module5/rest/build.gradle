@@ -1,0 +1,36 @@
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'rest-service'
+    version =  project.version
+}
+
+dependencies {
+    compile libraries.groovy
+    compile libraries.springBootModule('spring-boot')
+    compile libraries.springBootModule('spring-boot-starter-web')
+
+    compile project(':model')
+    compile project(':dao')
+
+    testCompile libraries.junit
+}
+
+buildscript {
+    dependencies {
+        classpath libraries.springBootModule('spring-boot-gradle-plugin')
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
+    }
+}
+
+springBoot {
+    mainClass = "com.romario.mentoring.service.boot.App"
+}
+
+

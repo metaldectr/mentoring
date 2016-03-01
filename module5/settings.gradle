@@ -1,0 +1,6 @@
+rootProject.name = 'module5'
+
+include 'rest'
+include 'model'
+include 'dao'
+
