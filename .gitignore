@@ -9,4 +9,6 @@ log
 *.class
 .idea
 .log
+.gradle
+build
 logs
