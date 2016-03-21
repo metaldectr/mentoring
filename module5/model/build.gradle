@@ -1,4 +1,11 @@
+group 'com.romario.mentoring'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
 dependencies {
-    compile libraries.groovy
-    testCompile libraries.junit
+    // Unit testing dependencies
+    testCompile 'junit:junit:4.12'
+    // Set this dependency if you want to use Hamcrest matching
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
 }

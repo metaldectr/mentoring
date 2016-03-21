@@ -5,12 +5,9 @@ import com.romario.mentoring.repository.api.PersonDAO;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Raman_Zhuravski on 2/24/2016.
- */
+
 @Component
 public class PersonProcessor
 {
