@@ -4,9 +4,6 @@ import com.romario.mentoring.model.Person;
 
 import java.util.List;
 
-/**
- * Created by Raman_Zhuravski on 2/26/2016.
- */
 public interface PersonDAO
 {
 
@@ -18,5 +15,6 @@ public interface PersonDAO
 
   Person create( Person person );
 
+  Person findById( int id );
 
 }
