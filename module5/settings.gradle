@@ -1,6 +1,6 @@
 rootProject.name = 'module5'
 
-include 'rest'
+include 'webservice'
 include 'model'
 include 'dao'
 
