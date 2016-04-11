@@ -17,4 +17,6 @@ public interface PersonDAO
 
   Person findById( int id );
 
+  Person findByName( String name );
+
 }

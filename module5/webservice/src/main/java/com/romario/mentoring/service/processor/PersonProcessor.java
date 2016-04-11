@@ -31,6 +31,8 @@ public class PersonProcessor
 
   public Person create( Person person )
   {
-    return null;
+    return personDao.create(person);
   }
+
+  public Person retrievePersonByName(String name) {return personDao.findByName(name);}
 }

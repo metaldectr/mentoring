@@ -1,0 +1,9 @@
+INSERT INTO persons VALUES (1, 'person1', 22);
+INSERT INTO persons VALUES (2, 'person2', 22);
+INSERT INTO persons VALUES (3, 'person3', 22);
+INSERT INTO persons VALUES (4, 'person4', 22);
+INSERT INTO persons VALUES (5, 'person5', 22);
+INSERT INTO persons VALUES (6, 'person6', 22);
+INSERT INTO persons VALUES (7, 'person7', 22);
+INSERT INTO persons VALUES (8, 'person8', 22);
+INSERT INTO persons VALUES (9, 'person9', 22);
