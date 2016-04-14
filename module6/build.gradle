@@ -1,0 +1,31 @@
+apply from: "libraries.gradle"
+
+group 'com.romario.mentoring'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'war'
+
+war {
+    baseName = 'webservice'
+    version =  project.version
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile libraries.junit
+
+    compile libraries.springModule('spring-context')
+    compile libraries.springModule('spring-core')
+    compile libraries.springModule('spring-beans')
+    compile libraries.springModule('spring-webmvc')
+    compile 'com.fasterxml.jackson.core:jackson-databind:+'
+    compile 'javax:javaee-api:+'
+
+}
