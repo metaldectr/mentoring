@@ -12,7 +12,7 @@ war {
     version =  project.version
 }
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.7
 
 repositories {
     mavenCentral()
@@ -27,5 +27,7 @@ dependencies {
     compile libraries.springModule('spring-webmvc')
     compile 'com.fasterxml.jackson.core:jackson-databind:+'
     compile 'javax:javaee-api:+'
+
+    compile 'log4j:log4j:1.2.17'
 
 }
