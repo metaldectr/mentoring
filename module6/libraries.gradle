@@ -1,0 +1,13 @@
+ext {
+    springVersion = '4.2.5.RELEASE'
+    groovyVersion = '2.4.6'
+    junitVersion = '4.11'
+}
+
+ext.libraries = [
+        springModule : { String module ->
+            "org.springframework:$module:$springVersion"
+        },
+        groovy : "org.codehaus.groovy:groovy-all:$groovyVersion",
+        junit : "junit:junit:$junitVersion",
+]
